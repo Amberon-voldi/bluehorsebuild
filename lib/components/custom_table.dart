@@ -202,7 +202,7 @@ class _CustomTableState extends State<CustomTable> {
                   )
                 : Container(),
             const Spacer(),
-            bar.SearchBar(controller: searchController),
+            SearchBar(controller: searchController),
           ],
         ),
         ConstrainedBox(
