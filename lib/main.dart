@@ -1,4 +1,3 @@
-import 'package:bluehorsebuild/screens/bookings_screen.dart';
 import 'package:bluehorsebuild/wrapper.dart';
 import 'package:flutter/material.dart';
 
@@ -16,14 +15,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Scaffold(
-        body: SingleChildScrollView(
-          child: BookingsScreen(
-            role: "Admin",
-            username: "rajanmishra",
-          ),
-        ),
-      ),
+      home: const Wrapper(),
     );
   }
 }
