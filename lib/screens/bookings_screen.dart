@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:bluehorsebuild/components/custom_box.dart';
 import 'package:bluehorsebuild/components/custom_button.dart';
 import 'package:bluehorsebuild/components/custom_table.dart';
@@ -26,7 +24,7 @@ class BookingsScreen extends StatefulWidget {
 class _BookingsScreenState extends State<BookingsScreen> {
   List<MapEntry<String, String>> projectsMap = [];
   TextEditingController dateOfBookingController =
-      TextEditingController(text: "dd-mm-yyyy");
+      TextEditingController(text: "yyyy-mm-dd");
   TextEditingController channelPartnerController = TextEditingController();
   TextEditingController relationshipManagerController = TextEditingController();
   TextEditingController nameController = TextEditingController();

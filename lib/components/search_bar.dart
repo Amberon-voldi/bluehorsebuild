@@ -2,8 +2,8 @@ import 'package:bluehorsebuild/components/custom_textfield.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class SearchBar extends StatelessWidget {
-  const SearchBar({super.key, required this.controller});
+class CustomSearchBar extends StatelessWidget {
+  const CustomSearchBar({super.key, required this.controller});
 
   final TextEditingController controller;
 
