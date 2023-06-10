@@ -728,6 +728,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                               }
                             });
                           } catch (error) {
+                            Navigator.pop(context);
                             errorMessage = error.toString();
                             setState(() {});
                           }

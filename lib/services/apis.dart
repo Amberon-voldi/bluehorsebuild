@@ -705,7 +705,7 @@ class Apis {
     String docAgreement,
   ) async {
     try {
-      final url = Uri.parse('$baseUrl/payments.php');
+      final url = Uri.parse('$baseUrl/bookings.php');
       final response = await http.post(
         url,
         body: {
