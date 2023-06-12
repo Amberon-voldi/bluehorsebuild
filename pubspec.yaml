@@ -33,6 +33,7 @@ dependencies:
   file_selector: ^0.9.3
   flutter:
     sdk: flutter
+  fluttertoast: ^8.2.2
   google_fonts: ^4.0.4
   http: ^0.13.6
   pdf: ^3.10.4
