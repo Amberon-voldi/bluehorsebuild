@@ -80,10 +80,15 @@ class Apis {
     try {
       final url = Uri.parse('$baseUrl/upload.php');
 
-      final request = http.MultipartRequest('POST', url);
+      var stream = http.ByteStream(file.openRead());
+      int length = await file.length();
+      var request = http.MultipartRequest("POST", url);
+      var multipartFile =
+          http.MultipartFile('file', stream, length, filename: file.name);
+
       request.fields['doc_name'] = docName;
-      request.files.add(await http.MultipartFile.fromPath('file', file.path));
-      final response = await request.send();
+      request.files.add(multipartFile);
+      var response = await request.send();
 
       if (response.statusCode == 200) {
         var jsonResponse = await response.stream.bytesToString();

@@ -359,7 +359,6 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                   ),
                                 ),
                                 items: [
-                                  "Select Payment Plan",
                                   "TLP",
                                   "FLEXI",
                                   "DP",
@@ -646,6 +645,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                               selectedAddressProof == null ||
                               selectedAddressProof == null) {
                             errorMessage = "Select files";
+                            setState(() {});
                             return;
                           }
                           if (controllers.any(
@@ -653,6 +653,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                               selectedProject == null ||
                               selectedPaymentPlan == null) {
                             errorMessage = "Empty values not allowed..";
+                            setState(() {});
                             return;
                           }
                           showDialog(

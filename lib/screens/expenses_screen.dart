@@ -144,6 +144,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                         onPressed: () async {
                           if (selectedFile == null) {
                             errorMessage = "Select a file";
+                            setState(() {});
                             return;
                           }
                           if (titleController.text.isEmpty ||
@@ -151,6 +152,7 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                               detailsController.text.isEmpty) {
                             errorMessage =
                                 "Empty values in title, amount and details are not allowed..";
+                            setState(() {});
                             return;
                           }
                           showDialog(

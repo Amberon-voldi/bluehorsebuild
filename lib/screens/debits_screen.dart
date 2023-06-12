@@ -218,6 +218,7 @@ class _DebitsScreenState extends State<DebitsScreen> {
                         onPressed: () async {
                           if (selectedFile == null) {
                             errorMessage = "Select a file";
+                            setState(() {});
                             return;
                           }
                           if (customerIdController.text.isEmpty ||
@@ -225,6 +226,7 @@ class _DebitsScreenState extends State<DebitsScreen> {
                               referenceController.text.isEmpty ||
                               paymentMode == null) {
                             errorMessage = "Empty values are not allowed..";
+                            setState(() {});
                             return;
                           }
                           showDialog(
