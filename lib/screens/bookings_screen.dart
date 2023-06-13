@@ -726,6 +726,10 @@ class _BookingsScreenState extends State<BookingsScreen> {
                                   selectedAgreementCopy = null;
                                   setState(() {});
                                 }
+                              } else {
+                                Navigator.pop(context);
+
+                                setState(() {});
                               }
                             });
                           } catch (error) {

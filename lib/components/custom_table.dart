@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bluehorsebuild/components/custom_button.dart';
 import 'package:bluehorsebuild/components/search_bar.dart' as bar;
+import 'package:bluehorsebuild/components/search_bar.dart';
 import 'package:bluehorsebuild/components/table_operations_row.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
@@ -210,7 +211,7 @@ class _CustomTableState extends State<CustomTable> {
                   )
                 : Container(),
             const Spacer(),
-            SearchBar(controller: searchController),
+            CustomSearchBar(controller: searchController),
           ],
         ),
         ConstrainedBox(

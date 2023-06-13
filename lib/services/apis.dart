@@ -6,6 +6,7 @@ import 'package:bluehorsebuild/components/custom_textfield.dart';
 import 'package:bluehorsebuild/screens/ledger_screen.dart';
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
 import 'package:url_launcher/url_launcher.dart';
@@ -822,44 +823,61 @@ class Apis {
   ) async {
     try {
       final url = Uri.parse('$baseUrl/bookings.php');
+
+      // Check for empty fields
+      final Map<String, String> requestBody = {
+        'login_type': getRole(role),
+        'id': username,
+        'mode': 'create',
+        "project_name": projectName,
+        "project_code": projectCode,
+        "floor_number": floor,
+        "shop_number": shop,
+        "channel_partner": channelPartner,
+        "relationship_manager": relationshipManager,
+        "name": name,
+        "pan_number": pan,
+        "mobile_number": mobile,
+        "email": email,
+        "address": address,
+        "coapplicant_name": coApplicant,
+        "coapplicant_pan": coApplicantPan,
+        "nominee_name": nominee,
+        "nominee_relation": nomineeRelation,
+        "booking_date": bookingDate,
+        "payment_plan": plan,
+        "booking_interest": interest,
+        "booking_rate": rate,
+        "shop_size": size,
+        "car_parking": parking,
+        "power_backup": backup,
+        "plc": plc,
+        "ifmc": ifmc,
+        "eec": eec,
+        "ffc": ffc,
+        "ecc": ecc,
+        "gst": gst,
+        "doc_pan": docPan,
+        "doc_address": docAddress,
+        "doc_agreement": docAgreement,
+      };
+
+      // Validate and log empty fields
+      final List<String> emptyFields = [];
+      requestBody.forEach((key, value) {
+        if (value == null || value.isEmpty) {
+          emptyFields.add(key);
+        }
+      });
+      if (emptyFields.isNotEmpty) {
+        // Log the empty fields
+        debugPrint('Empty fields: $emptyFields');
+        throw 'Empty fields found.';
+      }
+
       final response = await http.post(
         url,
-        body: {
-          'login_type': getRole(role),
-          'id': username,
-          'mode': 'create',
-          "project_name": projectName,
-          "project_code": projectCode,
-          "floor_number": floor,
-          "shop_number": shop,
-          "channel_partner": channelPartner,
-          "relationship_manager": relationshipManager,
-          "name": name,
-          "pan_number": pan,
-          "mobile_number": mobile,
-          "email": email,
-          "address": address,
-          "coapplicant_name": coApplicant,
-          "coapplicant_pan": coApplicantPan,
-          "nominee_name": nominee,
-          "nominee_relation": nomineeRelation,
-          "booking_date": bookingDate,
-          "payment_plan": plan,
-          "booking_interest": interest,
-          "booking_rate": rate,
-          "shop_size": size,
-          "car_parking": parking,
-          "power_backup": backup,
-          "plc": plc,
-          "ifmc": ifmc,
-          "eec": eec,
-          "ffc": ffc,
-          "ecc": ecc,
-          "gst": gst,
-          "doc_pan": docPan,
-          "doc_address": docAddress,
-          "doc_agreement": docAgreement,
-        },
+        body: requestBody,
       );
 
       if (response.statusCode == 200) {
@@ -868,13 +886,43 @@ class Apis {
           log(responseData.toString());
           return true;
         } else {
-          throw responseData['message'];
+          Fluttertoast.showToast(
+            msg: responseData['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          log(responseData['message'].toString());
+          return false;
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Somthing went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        log(response.toString());
+        return false;
       }
     } catch (e) {
-      rethrow;
+      Fluttertoast.showToast(
+        msg: 'Somthing went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+
+      return false;
     }
   }
 
