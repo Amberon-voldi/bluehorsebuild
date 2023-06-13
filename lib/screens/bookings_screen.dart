@@ -747,6 +747,17 @@ class _BookingsScreenState extends State<BookingsScreen> {
                     CustomTable(
                       isTopScrollbarVisible: true,
                       tableData: snapshot.data!,
+                      isEditable: true,
+                      editCallback: (data) async {
+                        await Apis().editBooking(data).then((result) {
+                          if (result && mounted) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                  content: Text('Booking edited successfully')),
+                            );
+                          }
+                        });
+                      },
                     ),
                   ],
                 ),

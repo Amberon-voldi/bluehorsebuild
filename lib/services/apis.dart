@@ -535,7 +535,7 @@ class Apis {
           "Booking ID",
           "Project Name",
           "Channel",
-          "Partner	Name",
+          "Partner Name",
           "PAN",
           "Mobile",
           "Email",
@@ -566,7 +566,7 @@ class Apis {
         var approvedBy = approvedByList.firstWhere(
             (element) => element["id"] == data[i]["user_id"])['name'];
         result.add([
-          i + 1,
+          data[i]["srno"],
           CustomButton(
             text: "LEDGER",
             color: Colors.blue,
@@ -580,7 +580,10 @@ class Apis {
                 )),
           ),
           (data[i]['status'] == null
-              ? "Active"
+              ? Text(
+                  "Active",
+                  style: GoogleFonts.urbanist(),
+                )
               : Text(
                   "Inactive",
                   style: GoogleFonts.urbanist(
@@ -670,6 +673,114 @@ class Apis {
       }
       return result;
     } catch (error) {
+      rethrow;
+    }
+  }
+
+  Future<bool> editBooking(Map<String, String> editedRow) async {
+    try {
+      String query = "UPDATE bookings SET ";
+
+      // TODO
+      // if (editedRow["Approved By"] != null) {
+      //   query += "Approved By = '${editedRow["Approved By"]}' ";
+      // }
+      if (editedRow["Booking ID"] != null) {
+        query += "booking_id = '${editedRow["Booking ID"]}' ";
+      }
+      if (editedRow["Project Name"] != null) {
+        query += "project_name = '${editedRow["Project Name"]}' ";
+      }
+      if (editedRow["Channel"] != null) {
+        query += "channel_partner = '${editedRow["Channel"]}' ";
+      }
+      if (editedRow["Partner Name"] != null) {
+        query += "name = '${editedRow["Partner Name"]}' ";
+      }
+      if (editedRow["PAN"] != null) {
+        query += "pan = '${editedRow["PAN"]}' ";
+      }
+      if (editedRow["Mobile"] != null) {
+        query += "mobile = '${editedRow["Mobile"]}' ";
+      }
+      if (editedRow["Email"] != null) {
+        query += "email = '${editedRow["Email"]}' ";
+      }
+      if (editedRow["Address"] != null) {
+        query += "address = '${editedRow["Address"]}' ";
+      }
+      if (editedRow["Co-Applicant"] != null) {
+        query += "co_applicant = '${editedRow["Co-Applicant"]}' ";
+      }
+      if (editedRow["Nominee"] != null) {
+        query += "nominee = '${editedRow["Nominee"]}' ";
+      }
+      if (editedRow["Relation"] != null) {
+        query += "nominee_relation = '${editedRow["Relation"]}' ";
+      }
+      if (editedRow["Date"] != null) {
+        query += "booking_date = '${editedRow["Date"]}' ";
+      }
+      if (editedRow["Plan"] != null) {
+        query += "plan = '${editedRow["Plan"]}' ";
+      }
+      if (editedRow["Rate(per sqft)"] != null) {
+        query += "booking_rate = '${editedRow["Rate(per sqft)"]}' ";
+      }
+      if (editedRow["Size( in sqft)"] != null) {
+        query += "shop_size = '${editedRow["Size( in sqft)"]}' ";
+      }
+      if (editedRow["Floor No."] != null) {
+        query += "floor_no = '${editedRow["Floor No."]}' ";
+      }
+      if (editedRow["Shop No."] != null) {
+        query += "shop_no = '${editedRow["Shop No."]}' ";
+      }
+      if (editedRow["Car Parking"] != null) {
+        query += "car_parking = '${editedRow["Car Parking"]}' ";
+      }
+      if (editedRow["Power Backup"] != null) {
+        query += "power_backup = '${editedRow["Power Backup"]}' ";
+      }
+      if (editedRow["PLC (%)"] != null) {
+        query += "plc = '${editedRow["PLC (%)"]}' ";
+      }
+      if (editedRow["IFMC (per sqft)"] != null) {
+        query += "ifmc = '${editedRow["IFMC (per sqft)"]}' ";
+      }
+      if (editedRow["EEC (per sqft)"] != null) {
+        query += "eec = '${editedRow["EEC (per sqft)"]}' ";
+      }
+      if (editedRow["FFC (per sqft)"] != null) {
+        query += "ffc = '${editedRow["FFC (per sqft)"]}' ";
+      }
+      if (editedRow["ECC (per sqft)"] != null) {
+        query += "ecc = '${editedRow["ECC (per sqft)"]}' ";
+      }
+      if (editedRow["GST (%)"] != null) {
+        query += "gst = '${editedRow["GST (%)"]}' ";
+      }
+      query += "WHERE srno = '${editedRow["#"]}' ";
+
+      final url = Uri.parse('$baseUrl/query.php');
+      final response = await http.post(
+        url,
+        body: {
+          'query': query,
+        },
+      );
+
+      if (response.statusCode == 200) {
+        final responseData = jsonDecode(response.body);
+        if (!responseData['message'].startsWith("Database error:")) {
+          log(responseData.toString());
+          return true;
+        }
+        return false;
+      } else {
+        throw 'Something went wrong';
+      }
+    } catch (e) {
       rethrow;
     }
   }

@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:bluehorsebuild/components/custom_button.dart';
 import 'package:bluehorsebuild/components/search_bar.dart' as bar;
 import 'package:bluehorsebuild/components/table_operations_row.dart';
 import 'package:dropdown_button2/dropdown_button2.dart';
@@ -11,12 +14,16 @@ class CustomTable extends StatefulWidget {
     this.isShowEntriesVisible = false,
     this.isTableOperationsVisible = true,
     this.isTopScrollbarVisible = false,
+    this.isEditable = false,
+    this.editCallback,
   });
 
   final List<List> tableData;
   final bool isShowEntriesVisible;
   final bool isTableOperationsVisible;
   final bool isTopScrollbarVisible;
+  final bool isEditable;
+  final void Function(Map<String, String>)? editCallback;
 
   @override
   State<CustomTable> createState() => _CustomTableState();
@@ -141,6 +148,7 @@ class _CustomTableState extends State<CustomTable> {
 
   @override
   Widget build(BuildContext context) {
+    bool isHeader = true;
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -235,7 +243,22 @@ class _CustomTableState extends State<CustomTable> {
                                             BorderSide(color: Colors.black26),
                                       ),
                                     ),
-                                    children: row
+                                    children: [
+                                      ...row,
+                                      (widget.isEditable && !isHeader)
+                                          ? () {
+                                              return IconButton(
+                                                onPressed: () => editFunction(
+                                                    row: row,
+                                                    callbackFunction:
+                                                        widget.editCallback!),
+                                                icon: const Icon(Icons.edit),
+                                              );
+                                            }()
+                                          : () {
+                                              isHeader = false;
+                                            }(),
+                                    ]
                                         .map(
                                           (entry) => Padding(
                                             padding: const EdgeInsets.symmetric(
@@ -432,6 +455,109 @@ class _CustomTableState extends State<CustomTable> {
           ],
         ),
       ],
+    );
+  }
+
+  void editFunction(
+      {required List<dynamic> row,
+      required void Function(Map<String, String>) callbackFunction}) {
+    Map<String, String> rowMap = {};
+    for (var i = 0; i < row.length; i++) {
+      if ([int, String, double, Map, List, Set].contains(row[i].runtimeType)) {
+        rowMap[shownData.first[i]] = row[i].toString();
+      }
+    }
+    Map<String, String> editedRowMap = {
+      shownData.first.first: row.first.toString(),
+    };
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return SizedBox.fromSize(
+          size: MediaQuery.of(context).size * 0.75,
+          child: Dialog(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                children: [
+                  Text(
+                    "Edit Row",
+                    style: GoogleFonts.urbanist(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
+                  Expanded(
+                    child: ListView.builder(
+                      shrinkWrap: true,
+                      itemCount: rowMap.length,
+                      itemBuilder: (context, index) {
+                        if ((index != 0)) {
+                          var entry = rowMap.entries.toList()[index];
+                          return Row(
+                            children: [
+                              SizedBox(
+                                child: Text(
+                                  "${entry.key}:",
+                                ),
+                              ),
+                              SizedBox(
+                                width: 300,
+                                child: TextFormField(
+                                  initialValue: entry.value.toString(),
+                                  decoration: const InputDecoration(
+                                    isDense: true,
+                                  ),
+                                  onChanged: (newValue) {
+                                    editedRowMap[entry.key] = newValue;
+                                    rowMap[entry.key] = newValue;
+                                    setState(() {});
+                                  },
+                                ),
+                              ),
+                            ],
+                          );
+                        } else {
+                          return Container();
+                        }
+                      },
+                    ),
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      CustomButton(
+                        text: "Cancel",
+                        color: Colors.white,
+                        textColor: Colors.purple,
+                        onPressed: () {
+                          Navigator.pop(context);
+                        },
+                      ),
+                      const SizedBox(
+                        width: 10.0,
+                      ),
+                      CustomButton(
+                        text: "Submit",
+                        color: Colors.purple,
+                        textColor: Colors.white,
+                        onPressed: () {
+                          Navigator.pop(context);
+                          if (editedRowMap.length == 1) {
+                            return;
+                          }
+                          callbackFunction(editedRowMap);
+                        },
+                      )
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }
