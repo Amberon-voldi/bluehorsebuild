@@ -82,7 +82,7 @@ class _DebitsScreenState extends State<DebitsScreen> {
                           width: (availableWidth - 50) / 3,
                           child: CustomTextField(
                             controller: customerIdController,
-                            hintText: "Customer ID",
+                            hintText: "Booking ID",
                           ),
                         ),
                         SizedBox(
@@ -239,7 +239,7 @@ class _DebitsScreenState extends State<DebitsScreen> {
                             Apis()
                                 .uploadFile("doc-payment", selectedFile!)
                                 .then((uploadedFileUrl) async {
-                              var result = await Apis().createPayment(
+                              var result = await Apis().createDebit(
                                 widget.username,
                                 widget.role,
                                 customerIdController.text,
@@ -267,6 +267,9 @@ class _DebitsScreenState extends State<DebitsScreen> {
                                   selectedFile = null;
                                   setState(() {});
                                 }
+                              } else {
+                                Navigator.pop(context);
+                                if (mounted) setState(() {});
                               }
                             });
                           } catch (error) {

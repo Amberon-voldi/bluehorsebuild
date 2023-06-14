@@ -1212,13 +1212,33 @@ class Apis {
           log(responseData.toString());
           return true;
         } else {
-          throw responseData['message'];
+          Fluttertoast.showToast(
+            msg: responseData['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          return false;
         }
       } else {
-        throw 'Something went wrong';
+        log(response.body.toString());
+        Fluttertoast.showToast(
+          msg: 'Somthing went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return false;
       }
     } catch (e) {
-      rethrow;
+      log(e.toString());
+      return false;
     }
   }
 
@@ -1355,18 +1375,39 @@ class Apis {
           log(responseData.toString());
           return true;
         } else {
-          throw responseData['message'];
+          Fluttertoast.showToast(
+            msg: responseData['message'],
+            toastLength: Toast.LENGTH_SHORT,
+            gravity: ToastGravity.BOTTOM,
+            timeInSecForIosWeb: 1,
+            backgroundColor: Colors.red,
+            textColor: Colors.white,
+            fontSize: 16.0,
+          );
+          return false;
         }
       } else {
-        throw 'Something went wrong';
+        log(response.body.toString());
+        Fluttertoast.showToast(
+          msg: 'Somthing went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+        return false;
       }
     } catch (e) {
-      rethrow;
+      log(e.toString());
+      return false;
     }
   }
 
   Future<Map<String, List<List<dynamic>>>> getExpensesData(
       BuildContext context, String role, String username) async {
+    log(username);
     try {
       final queries = {
         "submittedExpenses":
@@ -1482,6 +1523,7 @@ class Apis {
           ]);
         }
       }
+      log(result['submittedExpenses']![1].toString());
       return result;
     } catch (error) {
       log(error.toString());

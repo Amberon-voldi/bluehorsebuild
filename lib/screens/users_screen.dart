@@ -134,6 +134,9 @@ class _UsersScreenState extends State<UsersScreen> {
                                 errorMessage = null;
                                 setState(() {});
                               }
+                            } else {
+                              Navigator.pop(context);
+                              if (mounted) setState(() {});
                             }
                           } catch (error) {
                             errorMessage = error.toString();

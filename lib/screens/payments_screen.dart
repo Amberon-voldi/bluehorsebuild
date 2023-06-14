@@ -82,7 +82,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                           width: (availableWidth - 50) / 3,
                           child: CustomTextField(
                             controller: customerIdController,
-                            hintText: "Customer ID",
+                            hintText: "Booking ID",
                           ),
                         ),
                         SizedBox(
@@ -267,6 +267,9 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                                   selectedFile = null;
                                   setState(() {});
                                 }
+                              } else {
+                                Navigator.pop(context);
+                                if (mounted) setState(() {});
                               }
                             });
                           } catch (error) {

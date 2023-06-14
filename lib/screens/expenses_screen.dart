@@ -187,6 +187,9 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                                   selectedFile = null;
                                   setState(() {});
                                 }
+                              } else {
+                                Navigator.pop(context);
+                                if (mounted) setState(() {});
                               }
                             });
                           } catch (error) {
@@ -214,37 +217,38 @@ class _ExpensesScreenState extends State<ExpensesScreen> {
                 child: Column(
                   children: [
                     CustomTable(
+                      isEditable: true,
                       tableData: snapshot.data!["submittedExpenses"]!,
                     ),
                   ],
                 ),
               ),
-              widget.role == "Admin"
-                  ? CustomBox(
-                      title: "Expenses",
-                      subtitle: "Approved Expense",
-                      child: Column(
-                        children: [
-                          CustomTable(
-                            tableData: snapshot.data!["approvedExpenses"]!,
-                          ),
-                        ],
+              if (widget.role == "Admin")
+                CustomBox(
+                  title: "Expenses",
+                  subtitle: "Approved Expense",
+                  child: Column(
+                    children: [
+                      CustomTable(
+                        // isTopScrollbarVisible: true,
+                        // isEditable: true,
+                        tableData: snapshot.data!["approvedExpenses"]!,
                       ),
-                    )
-                  : Container(),
-              widget.role == "Admin"
-                  ? CustomBox(
-                      title: "Expenses",
-                      subtitle: "Rejected Expense",
-                      child: Column(
-                        children: [
-                          CustomTable(
-                            tableData: snapshot.data!["rejectedExpenses"]!,
-                          ),
-                        ],
+                    ],
+                  ),
+                ),
+              if (widget.role == "Admin")
+                CustomBox(
+                  title: "Expenses",
+                  subtitle: "Rejected Expense",
+                  child: Column(
+                    children: [
+                      CustomTable(
+                        tableData: snapshot.data!["rejectedExpenses"]!,
                       ),
-                    )
-                  : Container(),
+                    ],
+                  ),
+                )
             ],
           );
         });

@@ -112,6 +112,9 @@ class _ProjectsScreenState extends State<ProjectsScreen> {
                                 errorMessage = null;
                                 setState(() {});
                               }
+                            } else {
+                              Navigator.pop(context);
+                              if (mounted) setState(() {});
                             }
                           } catch (error) {
                             errorMessage = error.toString();
