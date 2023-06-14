@@ -1109,7 +1109,7 @@ class Apis {
                     onPressed: () => launchUrl(Uri.parse(data[i]["doc"])),
                   )
                 : "N/A",
-            ...(((entry.key == "submittedExpenses") && (role == "Admin"))
+            ...(((entry.key == "uploadedPayments") && (role == "Admin"))
                 ? List.generate(2, (index) {
                     TextEditingController controller = TextEditingController();
                     return Column(
@@ -1172,6 +1172,7 @@ class Apis {
           ]);
         }
       }
+
       return result;
     } catch (error) {
       log(error.toString());
@@ -1458,7 +1459,7 @@ class Apis {
                     onPressed: () => launchUrl(Uri.parse(data[i]["doc"])),
                   )
                 : "No Receipt",
-            ...(((entry.key == "submittedExpenses") && (role == "Admin"))
+            ...((entry.key == "submittedExpenses") && (role == "Admin")
                 ? List.generate(2, (index) {
                     TextEditingController controller = TextEditingController();
                     return Column(
@@ -1519,11 +1520,14 @@ class Apis {
                       ],
                     );
                   })
-                : [data[i]["remarks"]]),
+                : [
+                    data[i]["remarks"] ?? "No remarks yet",
+                    if (entry.key == "submittedExpenses") " "
+                  ]),
           ]);
         }
       }
-      log(result['submittedExpenses']![1].toString());
+
       return result;
     } catch (error) {
       log(error.toString());
