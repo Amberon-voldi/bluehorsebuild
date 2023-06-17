@@ -35,11 +35,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> changePassword(
@@ -70,11 +89,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<String> uploadFile(String docName, XFile file) async {
@@ -101,11 +139,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return "";
   }
 
   getRole(String role) {
@@ -136,10 +193,27 @@ class Apis {
           return responseData['data'] ?? [];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
 
     return [];
@@ -163,8 +237,19 @@ class Apis {
       }
       return result;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<List<List<dynamic>>> getProjectsData(
@@ -196,15 +281,29 @@ class Apis {
                 if (result) {
                   if (context.mounted) {
                     if (isLoading) Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Project deleted successfully')),
+                    Fluttertoast.showToast(
+                      msg: 'Project deleted successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
                     );
                   }
                 }
               } catch (error) {
-                if (isLoading) Navigator.pop(context);
                 log(error.toString());
+                Fluttertoast.showToast(
+                  msg: 'Something went wrong',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+                if (isLoading) Navigator.pop(context);
               }
             },
           ),
@@ -212,8 +311,19 @@ class Apis {
       }
       return result;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<bool> createProject(
@@ -240,11 +350,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> deleteProject(String username, String role, String srno) async {
@@ -269,11 +398,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<List<List<dynamic>>> getAdminsData(
@@ -306,15 +454,29 @@ class Apis {
                 if (result) {
                   if (context.mounted) {
                     if (isLoading) Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('Admin blocked successfully')),
+                    Fluttertoast.showToast(
+                      msg: 'Admin blocked successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
                     );
                   }
                 }
               } catch (error) {
-                if (isLoading) Navigator.pop(context);
                 log(error.toString());
+                Fluttertoast.showToast(
+                  msg: 'Something went wrong',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+                if (isLoading) Navigator.pop(context);
               }
             },
           ),
@@ -322,8 +484,19 @@ class Apis {
       }
       return result;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<bool> addAdmin(String myUsername, String role, String name,
@@ -352,11 +525,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> blockAdmin(String myUsername, String role, String name,
@@ -384,11 +576,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<List<List<dynamic>>> getUsersData(
@@ -421,15 +632,29 @@ class Apis {
                 if (result) {
                   if (context.mounted) {
                     if (isLoading) Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                          content: Text('User blocked successfully')),
+                    Fluttertoast.showToast(
+                      msg: 'User blocked successfully',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Colors.white,
+                      fontSize: 16.0,
                     );
                   }
                 }
               } catch (error) {
-                if (isLoading) Navigator.pop(context);
                 log(error.toString());
+                Fluttertoast.showToast(
+                  msg: 'Something went wrong',
+                  toastLength: Toast.LENGTH_SHORT,
+                  gravity: ToastGravity.BOTTOM,
+                  timeInSecForIosWeb: 1,
+                  backgroundColor: Colors.red,
+                  textColor: Colors.white,
+                  fontSize: 16.0,
+                );
+                if (isLoading) Navigator.pop(context);
               }
             },
           ),
@@ -437,8 +662,19 @@ class Apis {
       }
       return result;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<bool> addUser(String myUsername, String role, String name,
@@ -467,11 +703,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> blockUser(String myUsername, String role, String name,
@@ -499,11 +754,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<List<MapEntry<String, String>>> getProjects() async {
@@ -516,9 +790,20 @@ class Apis {
               MapEntry(item["code"].toString(), item["name"].toString()))
           .toList();
       return result;
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<List<List<dynamic>>> getBookingsData(
@@ -656,16 +941,29 @@ class Apis {
                       if (result) {
                         if (context.mounted) {
                           if (isLoading) Navigator.pop(context);
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(
-                                content:
-                                    Text('Booking inactivated successfully')),
+                          Fluttertoast.showToast(
+                            msg: 'Booking inactivated successfully',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.red,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
                           );
                         }
                       }
                     } catch (error) {
-                      if (isLoading) Navigator.pop(context);
                       log(error.toString());
+                      Fluttertoast.showToast(
+                        msg: 'Something went wrong',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red,
+                        textColor: Colors.white,
+                        fontSize: 16.0,
+                      );
+                      if (isLoading) Navigator.pop(context);
                     }
                   },
                 )
@@ -674,8 +972,19 @@ class Apis {
       }
       return result;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<bool> editBooking(Map<String, String> editedRow) async {
@@ -777,13 +1086,31 @@ class Apis {
           log(responseData.toString());
           return true;
         }
-        return false;
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> createBooking(
@@ -896,11 +1223,10 @@ class Apis {
             fontSize: 16.0,
           );
           log(responseData['message'].toString());
-          return false;
         }
       } else {
         Fluttertoast.showToast(
-          msg: 'Somthing went wrong',
+          msg: 'Something went wrong',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -909,11 +1235,11 @@ class Apis {
           fontSize: 16.0,
         );
         log(response.toString());
-        return false;
       }
-    } catch (e) {
+    } catch (error) {
+      log(error.toString());
       Fluttertoast.showToast(
-        msg: 'Somthing went wrong',
+        msg: 'Something went wrong',
         toastLength: Toast.LENGTH_SHORT,
         gravity: ToastGravity.BOTTOM,
         timeInSecForIosWeb: 1,
@@ -921,9 +1247,8 @@ class Apis {
         textColor: Colors.white,
         fontSize: 16.0,
       );
-
-      return false;
     }
+    return false;
   }
 
   Future<bool> inactivateBooking(
@@ -949,11 +1274,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<List<List<dynamic>>> getLedgerData(
@@ -1037,8 +1381,19 @@ class Apis {
       }
       return results;
     } catch (error) {
-      rethrow;
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<Map<String, List<List<dynamic>>>> getPaymentsData(
@@ -1149,16 +1504,30 @@ class Apis {
                               if (result) {
                                 if (context.mounted) {
                                   if (isLoading) Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            'Payment ${index == 0 ? "approved" : "rejected"} successfully')),
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        'Payment ${index == 0 ? "approved" : "rejected"} successfully',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
                                   );
                                 }
                               }
                             } catch (error) {
-                              if (isLoading) Navigator.pop(context);
                               log(error.toString());
+                              Fluttertoast.showToast(
+                                msg: 'Something went wrong',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                              if (isLoading) Navigator.pop(context);
                             }
                           },
                         ),
@@ -1176,8 +1545,18 @@ class Apis {
       return result;
     } catch (error) {
       log(error.toString());
-      rethrow;
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return {};
   }
 
   Future<bool> createPayment(
@@ -1222,12 +1601,11 @@ class Apis {
             textColor: Colors.white,
             fontSize: 16.0,
           );
-          return false;
         }
       } else {
         log(response.body.toString());
         Fluttertoast.showToast(
-          msg: 'Somthing went wrong',
+          msg: 'Something went wrong',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -1235,12 +1613,21 @@ class Apis {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-        return false;
       }
-    } catch (e) {
-      log(e.toString());
-      return false;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> approvePayment(String username, String role, String srno) async {
@@ -1265,11 +1652,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> rejectPayment(String username, String role, String srno) async {
@@ -1294,11 +1700,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<List<List<dynamic>>> getDebitsData(
@@ -1340,8 +1765,18 @@ class Apis {
       return result;
     } catch (error) {
       log(error.toString());
-      rethrow;
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return [];
   }
 
   Future<bool> createDebit(
@@ -1385,12 +1820,11 @@ class Apis {
             textColor: Colors.white,
             fontSize: 16.0,
           );
-          return false;
         }
       } else {
         log(response.body.toString());
         Fluttertoast.showToast(
-          msg: 'Somthing went wrong',
+          msg: 'Something went wrong',
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,
@@ -1398,12 +1832,21 @@ class Apis {
           textColor: Colors.white,
           fontSize: 16.0,
         );
-        return false;
       }
-    } catch (e) {
-      log(e.toString());
-      return false;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<Map<String, List<List<dynamic>>>> getExpensesData(
@@ -1501,16 +1944,30 @@ class Apis {
                               if (result) {
                                 if (context.mounted) {
                                   if (isLoading) Navigator.pop(context);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                        content: Text(
-                                            'Expense ${index == 0 ? "approved" : "rejected"} successfully')),
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        'Expense ${index == 0 ? "approved" : "rejected"} successfully',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
                                   );
                                 }
                               }
                             } catch (error) {
-                              if (isLoading) Navigator.pop(context);
                               log(error.toString());
+                              Fluttertoast.showToast(
+                                msg: 'Something went wrong',
+                                toastLength: Toast.LENGTH_SHORT,
+                                gravity: ToastGravity.BOTTOM,
+                                timeInSecForIosWeb: 1,
+                                backgroundColor: Colors.red,
+                                textColor: Colors.white,
+                                fontSize: 16.0,
+                              );
+                              if (isLoading) Navigator.pop(context);
                             }
                           },
                         ),
@@ -1531,8 +1988,18 @@ class Apis {
       return result;
     } catch (error) {
       log(error.toString());
-      rethrow;
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return {};
   }
 
   Future<bool> createExpense(String username, String role, String title,
@@ -1561,11 +2028,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> approveExpense(
@@ -1592,11 +2078,30 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 
   Future<bool> rejectExpense(
@@ -1623,10 +2128,29 @@ class Apis {
           throw responseData['message'];
         }
       } else {
-        throw 'Something went wrong';
+        Fluttertoast.showToast(
+          msg: 'Something went wrong',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
       }
-    } catch (e) {
-      rethrow;
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Something went wrong',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
     }
+
+    return false;
   }
 }
