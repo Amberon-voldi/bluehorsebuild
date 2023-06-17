@@ -1306,14 +1306,14 @@ class Apis {
           "SELECT * FROM payments WHERE (ref_id = '$srno' && status = 'approved') ORDER BY payment_date";
       var data = await _fetchData(query);
       List<List<dynamic>> results = [];
-      int balance = 0;
+      double balance = 0;
       for (var i = 0; i < data.length; i++) {
         int diff = 0;
         double interest = 0;
         var previousBalance = balance;
         balance = balance +
-            int.parse(data[i]["value_out"]) -
-            int.parse(data[i]["value_in"]);
+            double.parse(data[i]["value_out"]) -
+            double.parse(data[i]["value_in"]);
         var currentPaymentDateList = data[i]['payment_date']
             .toString()
             .split("-")
@@ -1339,7 +1339,7 @@ class Apis {
             DateTime date2 = currentDateTime;
             diff = date2.difference(date1).inDays;
             interest = (previousBalance *
-                    int.parse(bookingInterest) /
+                    double.parse(bookingInterest) /
                     100 *
                     diff /
                     365)
@@ -1356,7 +1356,7 @@ class Apis {
             DateTime date2 = currentDateTime;
             diff = date2.difference(date1).inDays;
             interest = (previousBalance *
-                    int.parse(bookingInterest) /
+                    double.parse(bookingInterest) /
                     100 *
                     diff /
                     365)
