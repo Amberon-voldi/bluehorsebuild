@@ -279,18 +279,15 @@ class Apis {
                 var result =
                     await Apis().deleteProject(username, role, data[i]["srno"]);
                 if (result) {
-                  if (context.mounted) {
-                    if (isLoading) Navigator.pop(context);
-                    Fluttertoast.showToast(
-                      msg: 'Project deleted successfully',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  }
+                  Fluttertoast.showToast(
+                    msg: 'Project deleted successfully',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
                 }
               } catch (error) {
                 log(error.toString());
@@ -303,7 +300,10 @@ class Apis {
                   textColor: Colors.white,
                   fontSize: 16.0,
                 );
-                if (isLoading) Navigator.pop(context);
+              } finally {
+                if (context.mounted && isLoading) {
+                  Navigator.pop(context);
+                }
               }
             },
           ),
@@ -452,18 +452,15 @@ class Apis {
                 var result = await Apis().blockAdmin(username, role,
                     data[i]["name"], data[i]["email"], data[i]["srno"]);
                 if (result) {
-                  if (context.mounted) {
-                    if (isLoading) Navigator.pop(context);
-                    Fluttertoast.showToast(
-                      msg: 'Admin blocked successfully',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  }
+                  Fluttertoast.showToast(
+                    msg: 'Admin blocked successfully',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
                 }
               } catch (error) {
                 log(error.toString());
@@ -476,7 +473,9 @@ class Apis {
                   textColor: Colors.white,
                   fontSize: 16.0,
                 );
-                if (isLoading) Navigator.pop(context);
+              }
+              if (context.mounted && isLoading) {
+                Navigator.pop(context);
               }
             },
           ),
@@ -630,18 +629,15 @@ class Apis {
                 var result = await Apis().blockUser(username, role,
                     data[i]["name"], data[i]["email"], data[i]["srno"]);
                 if (result) {
-                  if (context.mounted) {
-                    if (isLoading) Navigator.pop(context);
-                    Fluttertoast.showToast(
-                      msg: 'User blocked successfully',
-                      toastLength: Toast.LENGTH_SHORT,
-                      gravity: ToastGravity.BOTTOM,
-                      timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.red,
-                      textColor: Colors.white,
-                      fontSize: 16.0,
-                    );
-                  }
+                  Fluttertoast.showToast(
+                    msg: 'User blocked successfully',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.red,
+                    textColor: Colors.white,
+                    fontSize: 16.0,
+                  );
                 }
               } catch (error) {
                 log(error.toString());
@@ -654,7 +650,10 @@ class Apis {
                   textColor: Colors.white,
                   fontSize: 16.0,
                 );
-                if (isLoading) Navigator.pop(context);
+              } finally {
+                if (context.mounted && isLoading) {
+                  Navigator.pop(context);
+                }
               }
             },
           ),
@@ -939,18 +938,15 @@ class Apis {
                       var result = await Apis()
                           .inactivateBooking(username, role, data[i]["srno"]);
                       if (result) {
-                        if (context.mounted) {
-                          if (isLoading) Navigator.pop(context);
-                          Fluttertoast.showToast(
-                            msg: 'Booking inactivated successfully',
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.red,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
-                        }
+                        Fluttertoast.showToast(
+                          msg: 'Booking inactivated successfully',
+                          toastLength: Toast.LENGTH_SHORT,
+                          gravity: ToastGravity.BOTTOM,
+                          timeInSecForIosWeb: 1,
+                          backgroundColor: Colors.red,
+                          textColor: Colors.white,
+                          fontSize: 16.0,
+                        );
                       }
                     } catch (error) {
                       log(error.toString());
@@ -963,7 +959,10 @@ class Apis {
                         textColor: Colors.white,
                         fontSize: 16.0,
                       );
-                      if (isLoading) Navigator.pop(context);
+                    } finally {
+                      if (context.mounted && isLoading) {
+                        Navigator.pop(context);
+                      }
                     }
                   },
                 )
@@ -1502,19 +1501,16 @@ class Apis {
                                       data[i]["srno"],
                                     ));
                               if (result) {
-                                if (context.mounted) {
-                                  if (isLoading) Navigator.pop(context);
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        'Payment ${index == 0 ? "approved" : "rejected"} successfully',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  );
-                                }
+                                Fluttertoast.showToast(
+                                  msg:
+                                      'Payment ${index == 0 ? "approved" : "rejected"} successfully',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
                               }
                             } catch (error) {
                               log(error.toString());
@@ -1527,7 +1523,10 @@ class Apis {
                                 textColor: Colors.white,
                                 fontSize: 16.0,
                               );
-                              if (isLoading) Navigator.pop(context);
+                            } finally {
+                              if (context.mounted && isLoading) {
+                                Navigator.pop(context);
+                              }
                             }
                           },
                         ),
@@ -1942,19 +1941,16 @@ class Apis {
                                       controller.text,
                                     ));
                               if (result) {
-                                if (context.mounted) {
-                                  if (isLoading) Navigator.pop(context);
-                                  Fluttertoast.showToast(
-                                    msg:
-                                        'Expense ${index == 0 ? "approved" : "rejected"} successfully',
-                                    toastLength: Toast.LENGTH_SHORT,
-                                    gravity: ToastGravity.BOTTOM,
-                                    timeInSecForIosWeb: 1,
-                                    backgroundColor: Colors.red,
-                                    textColor: Colors.white,
-                                    fontSize: 16.0,
-                                  );
-                                }
+                                Fluttertoast.showToast(
+                                  msg:
+                                      'Expense ${index == 0 ? "approved" : "rejected"} successfully',
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: Colors.red,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
                               }
                             } catch (error) {
                               log(error.toString());
@@ -1967,7 +1963,10 @@ class Apis {
                                 textColor: Colors.white,
                                 fontSize: 16.0,
                               );
-                              if (isLoading) Navigator.pop(context);
+                            } finally {
+                              if (context.mounted && isLoading) {
+                                Navigator.pop(context);
+                              }
                             }
                           },
                         ),
