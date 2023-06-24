@@ -1299,14 +1299,15 @@ class Apis {
     return false;
   }
 
-  Future<List<List<dynamic>>> getLedgerData(
-      String srno, String bookingInterest) async {
+  Future<Map> getLedgerData(String srno, String bookingInterest) async {
     try {
       final query =
           "SELECT * FROM payments WHERE (ref_id = '$srno' && status = 'approved') ORDER BY payment_date";
       var data = await _fetchData(query);
       List<List<dynamic>> results = [];
       double balance = 0;
+      double totalInterest = 0;
+      double balanceAtRegistration = 0;
       for (var i = 0; i < data.length; i++) {
         int diff = 0;
         double interest = 0;
@@ -1377,8 +1378,18 @@ class Apis {
           balance,
           interest,
         ]);
+        totalInterest += interest;
+        if (data[i]["ref"] == "At the time of booking") {
+          log("balance at the time of booking: $balance");
+          balanceAtRegistration = balance;
+        }
       }
-      return results;
+      return {
+        "data": results,
+        "totalInterest": totalInterest.toString(),
+        "totalOutstanding": balance.toString(),
+        "balanceAtRegistration": balanceAtRegistration.toString(),
+      };
     } catch (error) {
       log(error.toString());
       Fluttertoast.showToast(
@@ -1392,7 +1403,7 @@ class Apis {
       );
     }
 
-    return [];
+    return {};
   }
 
   Future<Map<String, List<List<dynamic>>>> getPaymentsData(

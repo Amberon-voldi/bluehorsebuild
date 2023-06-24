@@ -61,20 +61,25 @@ class _LedgerScreenState extends State<LedgerScreen> {
                   const BackButton(),
                   IconButton(
                     onPressed: () async {
+                      var snapshotData = snapshot.data!;
                       LedgerPrinter.printLedger(
                         data: data,
-                        snapshotData: snapshot.data!,
+                        snapshotData: snapshotData["data"],
                         role: widget.role,
+                        totalInterest: snapshotData["totalInterest"],
+                        totalOutstanding: snapshotData["totalOutstanding"],
+                        balanceAtRegistration:
+                            snapshotData["balanceAtRegistration"],
                       );
                     },
-                    icon: Icon(Icons.print),
+                    icon: Icon(Icons.save),
                   ),
                 ],
               ),
               Ledger(
                 data: data,
                 role: widget.role,
-                tableData: snapshot.data!,
+                tableData: snapshot.data!["data"],
               )
             ],
           );
