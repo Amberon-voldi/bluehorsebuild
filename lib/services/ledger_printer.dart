@@ -148,22 +148,30 @@ class LedgerPrinter {
               endIndent: 20.0,
               indent: 20.0,
             ),
-            pw.Text(
-              "Payable Interest(Rs.) : $totalInterest",
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.Text(
-              "Payable Interest(Rs.) : $totalOutstanding",
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
-              ),
-            ),
-            pw.Text(
-              "At the Time of Registration: $balanceAtRegistration",
-              style: pw.TextStyle(
-                fontWeight: pw.FontWeight.bold,
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(left: 25.0),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    "Payable Interest(Rs.) : $totalInterest",
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    "Total Outstanding(Rs.) : $totalOutstanding",
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                  pw.Text(
+                    "At the Time of Registration: $balanceAtRegistration",
+                    style: pw.TextStyle(
+                      fontWeight: pw.FontWeight.bold,
+                    ),
+                  ),
+                ],
               ),
             ),
             pw.Divider(

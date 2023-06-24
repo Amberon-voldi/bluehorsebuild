@@ -1299,7 +1299,8 @@ class Apis {
     return false;
   }
 
-  Future<Map> getLedgerData(String srno, String bookingInterest) async {
+  Future<Map> getLedgerData(String srno, String bookingInterest,
+      double bookingAmount, double gst) async {
     try {
       final query =
           "SELECT * FROM payments WHERE (ref_id = '$srno' && status = 'approved') ORDER BY payment_date";
@@ -1307,7 +1308,7 @@ class Apis {
       List<List<dynamic>> results = [];
       double balance = 0;
       double totalInterest = 0;
-      double balanceAtRegistration = 0;
+      double totalCredit = 0;
       for (var i = 0; i < data.length; i++) {
         int diff = 0;
         double interest = 0;
@@ -1379,11 +1380,10 @@ class Apis {
           interest,
         ]);
         totalInterest += interest;
-        if (data[i]["ref"] == "At the time of booking") {
-          log("balance at the time of booking: $balance");
-          balanceAtRegistration = balance;
-        }
+        totalCredit += double.parse(data[i]["value_in"]);
       }
+      double balanceAtRegistration =
+          ((bookingAmount + totalInterest) * gst / 100) - totalCredit;
       return {
         "data": results,
         "totalInterest": totalInterest.toString(),

@@ -29,9 +29,16 @@ class _LedgerScreenState extends State<LedgerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    double bookingAmount =
+        double.parse(data["shop_size"]) * double.parse(data["booking_rate"]);
     return Scaffold(
       body: FutureBuilder(
-        future: Apis().getLedgerData(data["srno"], data["booking_interest"]),
+        future: Apis().getLedgerData(
+          data["srno"],
+          data["booking_interest"],
+          bookingAmount,
+          double.parse(data["gst"]),
+        ),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             log(snapshot.error.toString());
