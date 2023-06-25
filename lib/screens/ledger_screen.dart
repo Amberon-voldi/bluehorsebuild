@@ -79,13 +79,16 @@ class _LedgerScreenState extends State<LedgerScreen> {
                             snapshotData["balanceAtRegistration"],
                       );
                     },
-                    icon: Icon(Icons.save),
+                    icon: const Icon(Icons.save),
                   ),
                 ],
               ),
               Ledger(
                 data: data,
                 role: widget.role,
+                totalInterest: snapshot.data!["totalInterest"],
+                totalOutstanding: snapshot.data!["totalOutstanding"],
+                balanceAtRegistration: snapshot.data!["balanceAtRegistration"],
                 tableData: snapshot.data!["data"],
               )
             ],
@@ -101,12 +104,18 @@ class Ledger extends StatelessWidget {
     super.key,
     required this.data,
     required this.role,
+    required this.balanceAtRegistration,
+    required this.totalInterest,
+    required this.totalOutstanding,
     required this.tableData,
   });
 
   final Map<String, dynamic> data;
   final String role;
   final List<List<dynamic>> tableData;
+  final String totalInterest;
+  final String totalOutstanding;
+  final String balanceAtRegistration;
 
   @override
   Widget build(BuildContext context) {
@@ -271,6 +280,101 @@ class Ledger extends StatelessWidget {
                       .toList()))
               .toList(),
         ),
+        const Divider(
+          endIndent: 20.0,
+          indent: 20.0,
+        ),
+        Container(
+          width: MediaQuery.of(context).size.width,
+          padding: const EdgeInsets.only(right: 25.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              Text(
+                "Payable Interest(Rs.) : $totalInterest",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "Total Outstanding(Rs.) : $totalOutstanding",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              Text(
+                "At the Time of Registration: $balanceAtRegistration",
+                style: const TextStyle(
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ],
+          ),
+        ),
+        const Divider(
+          endIndent: 20.0,
+          indent: 20.0,
+        ),
+        const Text(
+          "Other Charges:",
+          style: TextStyle(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Flex(
+            direction: Axis.horizontal,
+            children: [
+              {
+                "Car Parking": "Rs. ${data["car_parking"]}",
+                "IFMC": "Rs. ${data["ifmc"]} per sqft",
+                "ECC": "Rs. ${data["ecc"]} per sqft",
+              },
+              {
+                "Power Backup": "Rs. ${data["power_backup"]}",
+                "EEC": "Rs. ${data["eec"]}",
+                "GST": "@ ${data["gst"]}%",
+              },
+              {
+                "PLC": "${data["plc"]}% of Basic Sale Price",
+                "FFC": "Rs. ${data["ffc"]} per sqft",
+              }
+            ]
+                .map(
+                  (container) => Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.max,
+                      children: container.entries
+                          .map(
+                            (entry) => Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Expanded(
+                                  child: Text(
+                                    entry.key,
+                                  ),
+                                ),
+                                const Text(
+                                  ": ",
+                                ),
+                                Expanded(
+                                  child: Text(
+                                    entry.value,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
+        )
       ],
     );
   }

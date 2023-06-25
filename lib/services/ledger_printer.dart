@@ -1,7 +1,9 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 
+import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
+import 'package:printing/printing.dart';
 
 class LedgerPrinter {
   static Future<void> printLedger({
@@ -13,6 +15,8 @@ class LedgerPrinter {
     required String balanceAtRegistration,
   }) async {
     final pdf = pw.Document();
+    final netImage = await networkImage(
+        'https://cdn.discordapp.com/attachments/919582268631162883/1122665737115418725/image.png');
 
     pdf.addPage(
       pw.MultiPage(
@@ -24,36 +28,41 @@ class LedgerPrinter {
               padding: const pw.EdgeInsets.symmetric(
                   horizontal: 40.0, vertical: 10.0),
               child: pw.Row(
-                mainAxisAlignment: pw.MainAxisAlignment.end,
+                mainAxisAlignment: pw.MainAxisAlignment.spaceBetween,
                 children: [
+                  pw.Image(
+                    netImage,
+                    fit: pw.BoxFit.contain,
+                    height: 50,
+                  ),
                   pw.Column(
                     crossAxisAlignment: pw.CrossAxisAlignment.end,
                     children: [
                       pw.Text(
                         "BLUE HORSE BUILDERS PRIVATE LIMITED",
                         style: pw.TextStyle(
-                          fontSize: 20,
+                          fontSize: 18,
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
                       pw.Text(
                         data["project_name"],
                         style: pw.TextStyle(
-                          fontSize: 18,
+                          fontSize: 15,
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
                       pw.Text(
                         "(Customer ID: ${data["booking_id"]})",
                         style: pw.TextStyle(
-                          fontSize: 16,
+                          fontSize: 13,
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
                       pw.Text(
                         "(${data["status"] == null ? "Active" : "Inactive"})",
                         style: pw.TextStyle(
-                          fontSize: 16,
+                          fontSize: 13,
                           fontWeight: pw.FontWeight.bold,
                         ),
                       ),
@@ -133,6 +142,7 @@ class LedgerPrinter {
               indent: 20.0,
             ),
             pw.TableHelper.fromTextArray(
+              border: pw.TableBorder.all(color: PdfColors.white),
               headers: [
                 "S.NO.",
                 "Date",
@@ -148,10 +158,12 @@ class LedgerPrinter {
               endIndent: 20.0,
               indent: 20.0,
             ),
-            pw.Padding(
-              padding: const pw.EdgeInsets.only(left: 25.0),
+            pw.Container(
+              width: double.infinity,
+              padding: const pw.EdgeInsets.only(right: 25.0),
               child: pw.Column(
-                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                mainAxisAlignment: pw.MainAxisAlignment.center,
+                crossAxisAlignment: pw.CrossAxisAlignment.end,
                 children: [
                   pw.Text(
                     "Payable Interest(Rs.) : $totalInterest",
@@ -237,7 +249,35 @@ class LedgerPrinter {
                     )
                     .toList(),
               ),
-            )
+            ),
+            pw.Padding(
+                padding: const pw.EdgeInsets.only(top: 15.0),
+                child: pw.Text(
+                  "Notes:",
+                  style: pw.TextStyle(
+                    fontWeight: pw.FontWeight.bold,
+                  ),
+                )),
+            pw.Padding(
+              padding: const pw.EdgeInsets.only(left: 25.0, top: 5.0),
+              child: pw.Column(
+                crossAxisAlignment: pw.CrossAxisAlignment.start,
+                children: [
+                  pw.Text(
+                    "1. This is a system genereted ledger document and does not require any signatures.",
+                    style: pw.TextStyle(),
+                  ),
+                  pw.Text(
+                    "2. As per RERA norms, Assured Returns are not permissible in the form of return cheque. In the case of REFUND/CANCELLATION of the unit at any stage and/or DELAY/DISHONOR/NON-PAYMENT of 3 SUCCESSIVE INSTALLMENTS by the customer, the builder shall no longer be liable to make any kind of adjustments for the Assured Returns in future. However, the Assured Returns already adjusted shall also stand cancelled and necessary adjustments shall be made by the builder.",
+                    style: pw.TextStyle(),
+                  ),
+                  pw.Text(
+                    "3. The process of REFUND/CANCELLATION shall require 90 DAYS from the date of submission of all necessary paperwork and STANDARD DEDUCTION shall be applicable.",
+                    style: pw.TextStyle(),
+                  ),
+                ],
+              ),
+            ),
           ];
         },
       ),

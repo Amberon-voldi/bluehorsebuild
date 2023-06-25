@@ -37,6 +37,7 @@ dependencies:
   google_fonts: ^4.0.4
   http: ^0.13.6
   pdf: ^3.10.4
+  printing: ^5.11.0
   shared_preferences: ^2.1.1
   url_launcher: ^6.1.11
 

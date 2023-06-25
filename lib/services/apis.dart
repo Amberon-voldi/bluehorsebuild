@@ -1341,10 +1341,8 @@ class Apis {
             DateTime date2 = currentDateTime;
             diff = date2.difference(date1).inDays;
             interest = (previousBalance *
-                    double.parse(bookingInterest) /
-                    100 *
-                    diff /
-                    365)
+                    (double.parse(bookingInterest) / 100 / 365) *
+                    diff)
                 .roundToDouble();
           } else {
             diff = 0;
@@ -1357,11 +1355,10 @@ class Apis {
             DateTime date1 = previousDateTime;
             DateTime date2 = currentDateTime;
             diff = date2.difference(date1).inDays;
+
             interest = (previousBalance *
-                    double.parse(bookingInterest) /
-                    100 *
-                    diff /
-                    365)
+                    (double.parse(bookingInterest) / 100 / 365) *
+                    diff)
                 .roundToDouble();
           } else {
             diff = 0;
@@ -1377,18 +1374,24 @@ class Apis {
           data[i]["value_out"] == "0" ? "-" : data[i]["value_out"],
           data[i]["value_in"] == "0" ? "-" : data[i]["value_in"],
           balance,
-          interest,
+          interest <= 0 ? "0" : "($diff)$interest",
         ]);
         totalInterest += interest;
         totalCredit += double.parse(data[i]["value_in"]);
       }
       double balanceAtRegistration =
-          ((bookingAmount + totalInterest) * gst / 100) - totalCredit;
+          (balance + totalInterest) >= (bookingAmount + totalInterest)
+              ? ((balance + totalInterest)) +
+                  (gst / 100 * (balance + totalInterest))
+              : ((bookingAmount + totalInterest)) -
+                  totalCredit +
+                  (gst / 100 * (bookingAmount + totalInterest));
       return {
         "data": results,
         "totalInterest": totalInterest.toString(),
-        "totalOutstanding": balance.toString(),
-        "balanceAtRegistration": balanceAtRegistration.toString(),
+        "totalOutstanding": (balance + totalInterest).toString(),
+        "balanceAtRegistration":
+            balanceAtRegistration <= 0 ? "0" : balanceAtRegistration.toString(),
       };
     } catch (error) {
       log(error.toString());
