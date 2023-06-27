@@ -7,11 +7,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LedgerScreen extends StatefulWidget {
-  const LedgerScreen({super.key, required this.ledgerData, required this.role});
+  const LedgerScreen(
+      {super.key,
+      required this.ledgerData,
+      required this.role,
+      required this.username});
 
   static const String id = "LedgerScreen";
 
   final Map<String, dynamic> ledgerData;
+  final String username;
   final String role;
 
   @override
@@ -34,11 +39,13 @@ class _LedgerScreenState extends State<LedgerScreen> {
     return Scaffold(
       body: FutureBuilder(
         future: Apis().getLedgerData(
-          data["srno"],
-          data["booking_interest"],
-          bookingAmount,
-          double.parse(data["gst"]),
-        ),
+            data["srno"],
+            data["booking_interest"],
+            bookingAmount,
+            double.parse(
+              data["gst"],
+            ),
+            widget.username),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             log(snapshot.error.toString());
@@ -79,7 +86,10 @@ class _LedgerScreenState extends State<LedgerScreen> {
                             snapshotData["balanceAtRegistration"],
                       );
                     },
-                    icon: const Icon(Icons.save),
+                    icon: const Icon(
+                      Icons.save,
+                      color: Colors.black,
+                    ),
                   ),
                 ],
               ),

@@ -805,6 +805,49 @@ class Apis {
     return [];
   }
 
+  Future<bool> updateLedger(String userid, String srno) async {
+    try {
+      final url = Uri.parse('$baseUrl/updateLedger.php');
+      final response = await http.post(
+        url,
+        body: {
+          'userid': userid.toString(),
+          'srno': srno.toString(),
+        },
+      );
+      log(response.body.toString());
+
+      if (response.statusCode == 200) {
+        log("Ledger Updated");
+
+        return true;
+      } else {
+        Fluttertoast.showToast(
+          msg: 'Failed to update ledger',
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: Colors.red,
+          textColor: Colors.white,
+          fontSize: 16.0,
+        );
+      }
+    } catch (error) {
+      log(error.toString());
+      Fluttertoast.showToast(
+        msg: 'Failed to update ledger',
+        toastLength: Toast.LENGTH_SHORT,
+        gravity: ToastGravity.BOTTOM,
+        timeInSecForIosWeb: 1,
+        backgroundColor: Colors.red,
+        textColor: Colors.white,
+        fontSize: 16.0,
+      );
+    }
+
+    return false;
+  }
+
   Future<List<List<dynamic>>> getBookingsData(
       BuildContext context, String role, String username) async {
     try {
@@ -861,6 +904,7 @@ class Apis {
                   builder: (context) => LedgerScreen(
                     ledgerData: {...data[i], "approved_by": approvedBy},
                     role: role,
+                    username: username,
                   ),
                 )),
           ),
@@ -1300,7 +1344,9 @@ class Apis {
   }
 
   Future<Map> getLedgerData(String srno, String bookingInterest,
-      double bookingAmount, double gst) async {
+      double bookingAmount, double gst, String username) async {
+    await updateLedger(username, srno);
+
     try {
       final query =
           "SELECT * FROM payments WHERE (ref_id = '$srno' && status = 'approved') ORDER BY payment_date";
@@ -1371,10 +1417,14 @@ class Apis {
           i + 1,
           data[i]["payment_date"],
           data[i]["ref"],
-          data[i]["value_out"] == "0" ? "-" : data[i]["value_out"],
-          data[i]["value_in"] == "0" ? "-" : data[i]["value_in"],
-          balance,
-          interest <= 0 ? "0" : "($diff)$interest",
+          data[i]["value_out"] == "0"
+              ? "-"
+              : double.parse(data[i]["value_out"]).toStringAsFixed(2),
+          data[i]["value_in"] == "0"
+              ? "-"
+              : double.parse(data[i]["value_in"]).toStringAsFixed(2),
+          balance.toStringAsFixed(2),
+          interest <= 0 ? "0" : "($diff)${interest.toStringAsFixed(2)}",
         ]);
         totalInterest += interest;
         totalCredit += double.parse(data[i]["value_in"]);
@@ -1388,10 +1438,12 @@ class Apis {
                   (gst / 100 * (bookingAmount + totalInterest));
       return {
         "data": results,
-        "totalInterest": totalInterest.toString(),
-        "totalOutstanding": (balance + totalInterest).toString(),
-        "balanceAtRegistration":
-            balanceAtRegistration <= 0 ? "0" : balanceAtRegistration.toString(),
+        "totalInterest": totalInterest.toStringAsFixed(2).toString(),
+        "totalOutstanding":
+            (balance + totalInterest).toStringAsFixed(2).toString(),
+        "balanceAtRegistration": balanceAtRegistration <= 0
+            ? "0"
+            : balanceAtRegistration.toStringAsFixed(2).toString(),
       };
     } catch (error) {
       log(error.toString());
