@@ -84,7 +84,7 @@ class CustomDateTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
+      onTap: () async {
         var controllerText = controller.text;
         DateTime? date;
         if (controllerText != "yyyy-mm-dd") {
@@ -92,17 +92,16 @@ class CustomDateTextField extends StatelessWidget {
               controllerText.split("-").map((e) => int.parse(e)).toList();
           date = DateTime(splitList[0], splitList[1], splitList[2]);
         }
-        showDatePicker(
+        date = await showDatePicker(
           context: context,
           initialDate: (date != null) ? date : DateTime.now(),
           firstDate: DateTime(1900),
           lastDate: DateTime.now(),
-        ).then((date) {
-          if (date != null) {
-            controller.text =
-                "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
-          }
-        });
+        );
+        if (date != null) {
+          controller.text =
+              "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+        }
       },
       child: Stack(
         children: [

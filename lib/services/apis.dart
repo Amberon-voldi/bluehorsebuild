@@ -1381,37 +1381,22 @@ class Apis {
             ? DateTime(previousPaymentDateList[0], previousPaymentDateList[1],
                 previousPaymentDateList[2])
             : null;
-        if ((i > 0) && (previousDateTime != null)) {
-          if (DateTime.now().isAfter(currentDateTime)) {
-            DateTime date1 = previousDateTime;
-            DateTime date2 = currentDateTime;
-            diff = date2.difference(date1).inDays;
-            interest = (previousBalance *
-                    (double.parse(bookingInterest) / 100 / 365) *
-                    diff)
-                .roundToDouble();
-          } else {
-            diff = 0;
-          }
-        } else {
-          diff = 0;
-        }
-        if ((i > 0) && (previousDateTime != null)) {
-          if (DateTime.now().isAfter(currentDateTime)) {
-            DateTime date1 = previousDateTime;
-            DateTime date2 = currentDateTime;
-            diff = date2.difference(date1).inDays;
 
-            interest = (previousBalance *
-                    (double.parse(bookingInterest) / 100 / 365) *
-                    diff)
-                .roundToDouble();
-          } else {
-            diff = 0;
-          }
+        if ((i > 0) && (previousDateTime != null)) {
+          // if (DateTime.now().isAfter(currentDateTime)) {
+          DateTime date1 = previousDateTime;
+          DateTime date2 = currentDateTime;
+          diff = date2.difference(date1).inDays;
+          interest = (previousBalance *
+                  (double.parse(bookingInterest) / 100 / 365) *
+                  diff)
+              .roundToDouble();
         } else {
           diff = 0;
         }
+        // } else {
+        //   diff = 0;
+        // }
 
         results.add([
           i + 1,
@@ -1424,7 +1409,9 @@ class Apis {
               ? "-"
               : double.parse(data[i]["value_in"]).toStringAsFixed(2),
           balance.toStringAsFixed(2),
-          interest <= 0 ? "0" : "($diff)${interest.toStringAsFixed(2)}",
+          interest <= 0
+              ? "($diff)" + "0"
+              : "($diff)${interest.toStringAsFixed(2)}",
         ]);
         totalInterest += interest;
         totalCredit += double.parse(data[i]["value_in"]);
