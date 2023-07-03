@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:http/http.dart' as http;
+import 'package:intl/intl.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class Apis {
@@ -1355,6 +1356,7 @@ class Apis {
       double balance = 0;
       double totalInterest = 0;
       double totalCredit = 0;
+      int bookingIndex = -1;
       for (var i = 0; i < data.length; i++) {
         int diff = 0;
         double interest = 0;
@@ -1400,21 +1402,42 @@ class Apis {
 
         results.add([
           i + 1,
-          data[i]["payment_date"],
+          DateFormat('dd-MM-yyyy')
+              .format(DateTime.parse(data[i]["payment_date"])),
           data[i]["ref"],
           data[i]["value_out"] == "0"
               ? "-"
-              : double.parse(data[i]["value_out"]).toStringAsFixed(2),
+              : double.parse(data[i]["value_out"]) % 1 == 0
+                  ? double.parse(data[i]["value_out"]).toInt().toString()
+                  : double.parse(data[i]["value_out"]).toStringAsFixed(2),
           data[i]["value_in"] == "0"
               ? "-"
-              : double.parse(data[i]["value_in"]).toStringAsFixed(2),
-          balance.toStringAsFixed(2),
+              : double.parse(data[i]["value_in"]) % 1 == 0
+                  ? double.parse(data[i]["value_in"]).toInt().toString()
+                  : double.parse(data[i]["value_in"]).toStringAsFixed(2),
+          balance % 1 == 0
+              ? balance.toInt().toString()
+              : balance.toStringAsFixed(2),
           interest <= 0
               ? "($diff)" + "0"
-              : "($diff)${interest.toStringAsFixed(2)}",
+              : "($diff)${interest % 1 == 0 ? interest.toInt().toString() : interest.toStringAsFixed(2)}",
         ]);
+
         totalInterest += interest;
         totalCredit += double.parse(data[i]["value_in"]);
+        // Check if the current item's reference contains "at the time of booking"
+        if (data[i]["ref"].toString().contains("At the time of booking")) {
+          bookingIndex =
+              i; // Store the index of the "at the time of booking" item
+        }
+      }
+      if (bookingIndex != -1) {
+        List<dynamic> bookingItem = results.removeAt(bookingIndex);
+
+        results.insert(0, bookingItem);
+        for (var i = 0; i < results.length; i++) {
+          results[i][0] = i + 1;
+        }
       }
       double balanceAtRegistration =
           (balance + totalInterest) >= (bookingAmount + totalInterest)

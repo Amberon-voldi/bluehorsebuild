@@ -36,6 +36,7 @@ dependencies:
   fluttertoast: ^8.2.2
   google_fonts: ^4.0.4
   http: ^0.13.6
+  intl: ^0.18.1
   pdf: ^3.10.4
   printing: ^5.11.0
   shared_preferences: ^2.1.1

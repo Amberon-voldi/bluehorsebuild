@@ -1,6 +1,7 @@
 import 'dart:html' as html;
 import 'dart:typed_data';
 
+import 'package:flutter/material.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -142,6 +143,10 @@ class LedgerPrinter {
               indent: 20.0,
             ),
             pw.TableHelper.fromTextArray(
+              cellStyle: const pw.TextStyle(fontSize: 11),
+              headerStyle: const pw.TextStyle(
+                fontSize: 11,
+              ),
               border: pw.TableBorder.all(color: PdfColors.white),
               headers: [
                 "S.NO.",
@@ -150,8 +155,17 @@ class LedgerPrinter {
                 "Debit(Rs.)",
                 "Credit(Rs.)",
                 "Balance(Rs.)",
-                "Interest(Rs.)"
+                "Interest(Rs.)",
               ],
+              columnWidths: {
+                0: pw.FixedColumnWidth(60), // S.NO.
+                1: pw.FixedColumnWidth(110), // Date
+                2: pw.FixedColumnWidth(290), // Particulars
+                3: pw.FixedColumnWidth(110), // Debit(Rs.)
+                4: pw.FixedColumnWidth(110), // Credit(Rs.)
+                5: pw.FixedColumnWidth(120), // Balance(Rs.)
+                6: pw.FixedColumnWidth(115), // Interest(Rs.)
+              },
               data: snapshotData,
             ),
             pw.Divider(
@@ -265,15 +279,15 @@ class LedgerPrinter {
                 children: [
                   pw.Text(
                     "1. This is a system genereted ledger document and does not require any signatures.",
-                    style: pw.TextStyle(),
+                    style: const pw.TextStyle(),
                   ),
                   pw.Text(
                     "2. As per RERA norms, Assured Returns are not permissible in the form of return cheque. In the case of REFUND/CANCELLATION of the unit at any stage and/or DELAY/DISHONOR/NON-PAYMENT of 3 SUCCESSIVE INSTALLMENTS by the customer, the builder shall no longer be liable to make any kind of adjustments for the Assured Returns in future. However, the Assured Returns already adjusted shall also stand cancelled and necessary adjustments shall be made by the builder.",
-                    style: pw.TextStyle(),
+                    style: const pw.TextStyle(),
                   ),
                   pw.Text(
                     "3. The process of REFUND/CANCELLATION shall require 90 DAYS from the date of submission of all necessary paperwork and STANDARD DEDUCTION shall be applicable.",
-                    style: pw.TextStyle(),
+                    style: const pw.TextStyle(),
                   ),
                 ],
               ),
