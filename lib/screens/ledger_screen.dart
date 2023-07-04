@@ -45,7 +45,8 @@ class _LedgerScreenState extends State<LedgerScreen> {
             double.parse(
               data["gst"],
             ),
-            widget.username),
+            widget.username,
+            data),
         builder: (context, snapshot) {
           if (snapshot.hasError) {
             log(snapshot.error.toString());

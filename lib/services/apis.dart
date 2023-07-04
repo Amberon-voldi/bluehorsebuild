@@ -1344,8 +1344,13 @@ class Apis {
     return false;
   }
 
-  Future<Map> getLedgerData(String srno, String bookingInterest,
-      double bookingAmount, double gst, String username) async {
+  Future<Map> getLedgerData(
+      String srno,
+      String bookingInterest,
+      double bookingAmount,
+      double gst,
+      String username,
+      Map<String, dynamic> bookingData) async {
     await updateLedger(username, srno);
 
     try {
@@ -1356,7 +1361,22 @@ class Apis {
       double balance = 0;
       double totalInterest = 0;
       double totalCredit = 0;
-      int bookingIndex = -1;
+
+      List newData = List.from(data);
+      int indexToMove = -1;
+
+      for (int i = 0; i < newData.length; i++) {
+        if (newData[i]['ref'].toString().contains("At the time of booking")) {
+          indexToMove = i;
+          break;
+        }
+      }
+
+      if (indexToMove != -1) {
+        var itemToMove = newData.removeAt(indexToMove);
+        newData.insert(0, itemToMove);
+      }
+
       for (var i = 0; i < data.length; i++) {
         int diff = 0;
         double interest = 0;
@@ -1426,26 +1446,56 @@ class Apis {
         totalInterest += interest;
         totalCredit += double.parse(data[i]["value_in"]);
         // Check if the current item's reference contains "at the time of booking"
-        if (data[i]["ref"].toString().contains("At the time of booking")) {
-          bookingIndex =
-              i; // Store the index of the "at the time of booking" item
-        }
+        // if (data[i]["ref"].toString().contains("At the time of booking")) {
+        //   bookingIndex =
+        //       i; // Store the index of the "at the time of booking" item
+        // }
       }
-      if (bookingIndex != -1) {
-        List<dynamic> bookingItem = results.removeAt(bookingIndex);
 
-        results.insert(0, bookingItem);
-        for (var i = 0; i < results.length; i++) {
-          results[i][0] = i + 1;
-        }
-      }
+      // double balanceAtRegistratio =
+      //     (balance + totalInterest) >= (bookingAmount + totalInterest)
+      //         ? ((balance + totalInterest)) +
+      //             (gst / 100 * (balance + totalInterest))
+      //         : ((bookingAmount + totalInterest)) -
+      //             totalCredit +
+      //             (gst / 100 * (bookingAmount + totalInterest));
+
+      double othercharges = (int.parse(bookingData['car_parking']) +
+          int.parse(bookingData['power_backup']) +
+          (int.parse(bookingData['booking_rate']) *
+              int.parse(bookingData['shop_size']) *
+              (int.parse(bookingData['plc']) / 100)) +
+          (int.parse(bookingData['shop_size']) *
+              int.parse(bookingData['ifmc'])) +
+          (int.parse(bookingData['eec']) *
+              int.parse(bookingData['shop_size'])) +
+          (int.parse(bookingData['ffc']) *
+              int.parse(bookingData['shop_size'])) +
+          (int.parse(bookingData['ecc']) *
+              int.parse(bookingData['shop_size'])) +
+          ((int.parse(bookingData['booking_rate']) *
+                      int.parse(bookingData['shop_size']) +
+                  int.parse(bookingData['car_parking']) +
+                  int.parse(bookingData['power_backup']) +
+                  (int.parse(bookingData['booking_rate']) *
+                      int.parse(bookingData['shop_size']) *
+                      (int.parse(bookingData['plc']) / 100)) +
+                  (int.parse(bookingData['shop_size']) *
+                      int.parse(bookingData['ifmc'])) +
+                  (int.parse(bookingData['eec']) *
+                      int.parse(bookingData['shop_size'])) +
+                  (int.parse(bookingData['ffc']) *
+                      int.parse(bookingData['shop_size'])) +
+                  (int.parse(bookingData['ecc']) *
+                      int.parse(bookingData['shop_size']))) *
+              (int.parse(bookingData['gst']) / 100)));
+
+      log(othercharges.toString());
       double balanceAtRegistration =
-          (balance + totalInterest) >= (bookingAmount + totalInterest)
-              ? ((balance + totalInterest)) +
-                  (gst / 100 * (balance + totalInterest))
-              : ((bookingAmount + totalInterest)) -
-                  totalCredit +
-                  (gst / 100 * (bookingAmount + totalInterest));
+          ((bookingAmount - totalCredit) + totalInterest + othercharges) +
+              (((bookingAmount - totalCredit) + totalInterest + othercharges) *
+                  gst /
+                  100);
       return {
         "data": results,
         "totalInterest": totalInterest.toStringAsFixed(2).toString(),
@@ -1520,66 +1570,84 @@ class Apis {
             : {},
       };
       var bookingId = await _fetchData("SELECT srno, booking_id FROM bookings");
+
       for (var entry in queries.entries) {
         var data = await _fetchData(entry.value);
+
+        log(data.length.toString());
         for (var i = 0; i < data.length; i++) {
-          result[entry.key]!.add([
-            data[i]["srno"],
-            data[i]["createdon"],
-            bookingId.firstWhere((element) =>
-                element["srno"] == data[i]["ref_id"])["booking_id"],
-            "(${data[i]["id"]})",
-            data[i]["value_in"],
-            data[i]["payment_date"],
-            data[i]["mode"],
-            data[i]["reference"] ?? "N/A",
-            data[i]["doc"] != null
-                ? ClickableText(
-                    text: "Document",
-                    onPressed: () => launchUrl(Uri.parse(data[i]["doc"])),
-                  )
-                : "N/A",
-            ...(((entry.key == "uploadedPayments") && (role == "Admin"))
-                ? List.generate(2, (index) {
-                    TextEditingController controller = TextEditingController();
-                    return Column(
-                      children: [
-                        SizedBox(
-                          width: 150,
-                          child: CustomTextField(
-                            controller: controller,
-                            hintText: "Enter Remarks",
+          print(i.toString());
+          try {
+            result[entry.key]!.add([
+              data[i]["srno"],
+              data[i]["createdon"],
+              bookingId.firstWhere((element) =>
+                  element["srno"] == data[i]["ref_id"])["booking_id"],
+              "(${data[i]["id"]})",
+              data[i]["value_in"],
+              data[i]["payment_date"],
+              data[i]["mode"],
+              data[i]["reference"] ?? "N/A",
+              data[i]["doc"] != null
+                  ? ClickableText(
+                      text: "Document",
+                      onPressed: () => launchUrl(Uri.parse(data[i]["doc"])),
+                    )
+                  : "N/A",
+              ...(((entry.key == "uploadedPayments") && (role == "Admin"))
+                  ? List.generate(2, (index) {
+                      TextEditingController controller =
+                          TextEditingController();
+                      return Column(
+                        children: [
+                          SizedBox(
+                            width: 150,
+                            child: CustomTextField(
+                              controller: controller,
+                              hintText: "Enter Remarks",
+                            ),
                           ),
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                        CustomButton(
-                          text: index == 0 ? "APPROVE" : "REJECT",
-                          onPressed: () async {
-                            var isLoading = true;
-                            showDialog(
-                              context: context,
-                              builder: (context) => const Center(
-                                child: CircularProgressIndicator(),
-                              ),
-                            );
-                            try {
-                              var result = await ((index == 0)
-                                  ? Apis().approvePayment(
-                                      username,
-                                      role,
-                                      data[i]["srno"],
-                                    )
-                                  : Apis().rejectPayment(
-                                      username,
-                                      role,
-                                      data[i]["srno"],
-                                    ));
-                              if (result) {
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          CustomButton(
+                            text: index == 0 ? "APPROVE" : "REJECT",
+                            onPressed: () async {
+                              var isLoading = true;
+                              showDialog(
+                                context: context,
+                                builder: (context) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
+                              );
+                              try {
+                                var result = await ((index == 0)
+                                    ? Apis().approvePayment(
+                                        username,
+                                        role,
+                                        data[i]["srno"],
+                                      )
+                                    : Apis().rejectPayment(
+                                        username,
+                                        role,
+                                        data[i]["srno"],
+                                      ));
+                                if (result) {
+                                  Fluttertoast.showToast(
+                                    msg:
+                                        'Payment ${index == 0 ? "approved" : "rejected"} successfully',
+                                    toastLength: Toast.LENGTH_SHORT,
+                                    gravity: ToastGravity.BOTTOM,
+                                    timeInSecForIosWeb: 1,
+                                    backgroundColor: Colors.red,
+                                    textColor: Colors.white,
+                                    fontSize: 16.0,
+                                  );
+                                }
+                              } catch (error) {
+                                log(error.toString());
                                 Fluttertoast.showToast(
-                                  msg:
-                                      'Payment ${index == 0 ? "approved" : "rejected"} successfully',
+                                  msg: 'Something went wrong',
                                   toastLength: Toast.LENGTH_SHORT,
                                   gravity: ToastGravity.BOTTOM,
                                   timeInSecForIosWeb: 1,
@@ -1587,35 +1655,30 @@ class Apis {
                                   textColor: Colors.white,
                                   fontSize: 16.0,
                                 );
+                              } finally {
+                                if (context.mounted && isLoading) {
+                                  Navigator.pop(context);
+                                }
                               }
-                            } catch (error) {
-                              log(error.toString());
-                              Fluttertoast.showToast(
-                                msg: 'Something went wrong',
-                                toastLength: Toast.LENGTH_SHORT,
-                                gravity: ToastGravity.BOTTOM,
-                                timeInSecForIosWeb: 1,
-                                backgroundColor: Colors.red,
-                                textColor: Colors.white,
-                                fontSize: 16.0,
-                              );
-                            } finally {
-                              if (context.mounted && isLoading) {
-                                Navigator.pop(context);
-                              }
-                            }
-                          },
-                        ),
-                        const SizedBox(
-                          height: 20,
-                        ),
-                      ],
-                    );
-                  })
-                : []),
-          ]);
+                            },
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                        ],
+                      );
+                    })
+                  : []),
+            ]);
+          } catch (error) {
+            // Log the index and data causing the error
+            log('Error at index $i: ${data[i]}');
+            log(error.toString());
+          }
         }
       }
+
+      log(result.toString() + 'kkk');
 
       return result;
     } catch (error) {
