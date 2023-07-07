@@ -1361,6 +1361,7 @@ class Apis {
       double balance = 0;
       double totalInterest = 0;
       double totalCredit = 0;
+      double totalDebit = 0;
 
       List newData = List.from(data);
       int indexToMove = -1;
@@ -1444,6 +1445,7 @@ class Apis {
         ]);
 
         totalInterest += interest;
+        totalDebit += double.parse(data[i]["value_out"]);
         totalCredit += double.parse(data[i]["value_in"]);
         // Check if the current item's reference contains "at the time of booking"
         // if (data[i]["ref"].toString().contains("At the time of booking")) {
@@ -1452,53 +1454,28 @@ class Apis {
         // }
       }
 
-      // double balanceAtRegistratio =
-      //     (balance + totalInterest) >= (bookingAmount + totalInterest)
-      //         ? ((balance + totalInterest)) +
-      //             (gst / 100 * (balance + totalInterest))
-      //         : ((bookingAmount + totalInterest)) -
-      //             totalCredit +
-      //             (gst / 100 * (bookingAmount + totalInterest));
-
+      int shopSize = int.parse(bookingData['shop_size']);
       double othercharges = (int.parse(bookingData['car_parking']) +
-          int.parse(bookingData['power_backup']) +
+              int.parse(bookingData['power_backup'])) +
           (int.parse(bookingData['booking_rate']) *
-              int.parse(bookingData['shop_size']) *
+              shopSize *
               (int.parse(bookingData['plc']) / 100)) +
-          (int.parse(bookingData['shop_size']) *
-              int.parse(bookingData['ifmc'])) +
-          (int.parse(bookingData['eec']) *
-              int.parse(bookingData['shop_size'])) +
-          (int.parse(bookingData['ffc']) *
-              int.parse(bookingData['shop_size'])) +
-          (int.parse(bookingData['ecc']) *
-              int.parse(bookingData['shop_size'])) +
-          ((int.parse(bookingData['booking_rate']) *
-                      int.parse(bookingData['shop_size']) +
-                  int.parse(bookingData['car_parking']) +
-                  int.parse(bookingData['power_backup']) +
-                  (int.parse(bookingData['booking_rate']) *
-                      int.parse(bookingData['shop_size']) *
-                      (int.parse(bookingData['plc']) / 100)) +
-                  (int.parse(bookingData['shop_size']) *
-                      int.parse(bookingData['ifmc'])) +
-                  (int.parse(bookingData['eec']) *
-                      int.parse(bookingData['shop_size'])) +
-                  (int.parse(bookingData['ffc']) *
-                      int.parse(bookingData['shop_size'])) +
-                  (int.parse(bookingData['ecc']) *
-                      int.parse(bookingData['shop_size']))) *
-              (int.parse(bookingData['gst']) / 100)));
+          shopSize * int.parse(bookingData['ifmc']) +
+          (shopSize * int.parse(bookingData['eec'])) +
+          (shopSize * int.parse(bookingData['ffc'])) +
+          (shopSize * int.parse(bookingData['ecc']));
 
-      log(othercharges.toString());
+      log('total Debit: ${totalDebit}\ntotal Credit: ${totalCredit}\nOther Charges: ${othercharges}');
       double balanceAtRegistration =
-          ((bookingAmount - totalCredit) + totalInterest + othercharges) +
-              (((bookingAmount - totalCredit) + totalInterest + othercharges) *
+          ((bookingAmount + othercharges - totalCredit) + totalInterest) +
+              (((bookingAmount + othercharges - totalCredit) + totalInterest) *
                   gst /
                   100);
       return {
         "data": results,
-        "totalInterest": totalInterest.toStringAsFixed(2).toString(),
+        "totalInterest": (totalInterest <= 0 ? 0 : totalInterest)
+            .toStringAsFixed(2)
+            .toString(),
         "totalOutstanding":
             (balance + totalInterest).toStringAsFixed(2).toString(),
         "balanceAtRegistration": balanceAtRegistration <= 0

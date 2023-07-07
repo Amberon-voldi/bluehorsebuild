@@ -66,6 +66,7 @@ class _CustomTableState extends State<CustomTable> {
               .toLowerCase()
               .contains(searchKeyword.toLowerCase())))
           .toList();
+
       shownData = [
         widget.tableData[0],
         ...(searchedResult.isEmpty)
