@@ -1364,6 +1364,7 @@ class Apis {
       double totalDebit = 0;
 
       List newData = List.from(data);
+
       int indexToMove = -1;
 
       for (int i = 0; i < newData.length; i++) {
@@ -1382,14 +1383,21 @@ class Apis {
         int diff = 0;
         double interest = 0;
         var previousBalance = balance;
+        log((double.parse(data[i]["value_out"].toString().replaceAll(',', '')) -
+                double.parse(
+                    data[i]["value_in"].toString().replaceAll(',', '')))
+            .toString());
+
         balance = balance +
-            double.parse(data[i]["value_out"]) -
-            double.parse(data[i]["value_in"]);
+            double.parse(data[i]["value_out"].toString().replaceAll(',', '')) -
+            double.parse(data[i]["value_in"].toString().replaceAll(',', ''));
+
         var currentPaymentDateList = data[i]['payment_date']
             .toString()
             .split("-")
-            .map((e) => int.parse(e))
+            .map((e) => int.parse(e.toString()))
             .toList();
+
         var currentDateTime = DateTime(currentPaymentDateList[0],
             currentPaymentDateList[1], currentPaymentDateList[2]);
 
@@ -1428,14 +1436,32 @@ class Apis {
           data[i]["ref"],
           data[i]["value_out"] == "0"
               ? "-"
-              : double.parse(data[i]["value_out"]) % 1 == 0
-                  ? double.parse(data[i]["value_out"]).toInt().toString()
-                  : double.parse(data[i]["value_out"]).toStringAsFixed(2),
+              : double.parse(data[i]["value_out"]
+                              .toString()
+                              .replaceAll(',', '')) %
+                          1 ==
+                      0
+                  ? double.parse(
+                          data[i]["value_out"].toString().replaceAll(',', ''))
+                      .toInt()
+                      .toString()
+                  : double.parse(
+                          data[i]["value_out"].toString().replaceAll(',', ''))
+                      .toStringAsFixed(2),
           data[i]["value_in"] == "0"
               ? "-"
-              : double.parse(data[i]["value_in"]) % 1 == 0
-                  ? double.parse(data[i]["value_in"]).toInt().toString()
-                  : double.parse(data[i]["value_in"]).toStringAsFixed(2),
+              : double.parse(data[i]["value_in"]
+                              .toString()
+                              .replaceAll(',', '')) %
+                          1 ==
+                      0
+                  ? double.parse(
+                          data[i]["value_in"].toString().replaceAll(',', ''))
+                      .toInt()
+                      .toString()
+                  : double.parse(
+                          data[i]["value_in"].toString().replaceAll(',', ''))
+                      .toStringAsFixed(2),
           balance % 1 == 0
               ? balance.toInt().toString()
               : balance.toStringAsFixed(2),
@@ -1444,9 +1470,11 @@ class Apis {
               : "($diff)${interest % 1 == 0 ? interest.toInt().toString() : interest.toStringAsFixed(2)}",
         ]);
 
-        totalInterest += interest;
-        totalDebit += double.parse(data[i]["value_out"]);
-        totalCredit += double.parse(data[i]["value_in"]);
+        totalInterest += interest <= 0 ? 0 : interest;
+        totalDebit +=
+            double.parse(data[i]["value_out"].toString().replaceAll(',', ''));
+        totalCredit +=
+            double.parse(data[i]["value_in"].toString().replaceAll(',', ''));
         // Check if the current item's reference contains "at the time of booking"
         // if (data[i]["ref"].toString().contains("At the time of booking")) {
         //   bookingIndex =
@@ -1480,7 +1508,7 @@ class Apis {
             (balance + totalInterest).toStringAsFixed(2).toString(),
         "balanceAtRegistration": balanceAtRegistration <= 0
             ? "0"
-            : balanceAtRegistration.toStringAsFixed(2).toString(),
+            : '${balanceAtRegistration.toStringAsFixed(2)}(${(((bookingAmount + othercharges - totalCredit) + totalInterest) * gst / 100).toStringAsFixed(0)} GST)',
       };
     } catch (error) {
       log(error.toString());
@@ -1655,7 +1683,7 @@ class Apis {
         }
       }
 
-      log(result.toString() + 'kkk');
+      log('${result}kkk');
 
       return result;
     } catch (error) {
