@@ -1362,6 +1362,9 @@ class Apis {
       double totalInterest = 0;
       double totalCredit = 0;
       double totalDebit = 0;
+      int interestDiff = 0;
+      DateTime lastDatetime = DateTime.now();
+      double lastBalance = 0;
 
       List newData = List.from(data);
 
@@ -1383,10 +1386,6 @@ class Apis {
         int diff = 0;
         double interest = 0;
         var previousBalance = balance;
-        log((double.parse(data[i]["value_out"].toString().replaceAll(',', '')) -
-                double.parse(
-                    data[i]["value_in"].toString().replaceAll(',', '')))
-            .toString());
 
         balance = balance +
             double.parse(data[i]["value_out"].toString().replaceAll(',', '')) -
@@ -1417,6 +1416,7 @@ class Apis {
           // if (DateTime.now().isAfter(currentDateTime)) {
           DateTime date1 = previousDateTime;
           DateTime date2 = currentDateTime;
+          lastDatetime = currentDateTime;
           diff = date2.difference(date1).inDays;
           interest = (previousBalance *
                   (double.parse(bookingInterest) / 100 / 365) *
@@ -1471,15 +1471,36 @@ class Apis {
         ]);
 
         totalInterest += interest <= 0 ? 0 : interest;
+        lastBalance = balance;
         totalDebit +=
             double.parse(data[i]["value_out"].toString().replaceAll(',', ''));
         totalCredit +=
             double.parse(data[i]["value_in"].toString().replaceAll(',', ''));
-        // Check if the current item's reference contains "at the time of booking"
-        // if (data[i]["ref"].toString().contains("At the time of booking")) {
-        //   bookingIndex =
-        //       i; // Store the index of the "at the time of booking" item
-        // }
+      }
+
+      var currentDate = DateTime.now();
+      interestDiff = currentDate.difference(lastDatetime).inDays;
+      var tillInterest = (lastBalance *
+              (double.parse(bookingInterest) / 100 / 365) *
+              interestDiff)
+          .roundToDouble();
+      totalInterest += tillInterest;
+      log(tillInterest.toString());
+
+      try {
+        results.add([
+          results.last[0] + 1,
+          DateFormat('dd-MM-yyyy').format(DateTime.now()),
+          "Interest Till Date",
+          "-",
+          "-",
+          "-",
+          tillInterest <= 0
+              ? "($interestDiff)" + "0"
+              : "($interestDiff)${tillInterest % 1 == 0 ? tillInterest.toInt().toString() : tillInterest.toStringAsFixed(2)}",
+        ]);
+      } catch (e) {
+        log(e.toString());
       }
 
       int shopSize = int.parse(bookingData['shop_size']);
@@ -1496,9 +1517,7 @@ class Apis {
       log('total Debit: ${totalDebit}\ntotal Credit: ${totalCredit}\nOther Charges: ${othercharges}');
       double balanceAtRegistration =
           ((bookingAmount + othercharges - totalCredit) + totalInterest) +
-              (((bookingAmount + othercharges - totalCredit) + totalInterest) *
-                  gst /
-                  100);
+              (((bookingAmount + othercharges) + totalInterest) * gst / 100);
       return {
         "data": results,
         "totalInterest": (totalInterest <= 0 ? 0 : totalInterest)
@@ -1508,7 +1527,7 @@ class Apis {
             (balance + totalInterest).toStringAsFixed(2).toString(),
         "balanceAtRegistration": balanceAtRegistration <= 0
             ? "0"
-            : '${balanceAtRegistration.toStringAsFixed(2)}(${(((bookingAmount + othercharges - totalCredit) + totalInterest) * gst / 100).toStringAsFixed(0)} GST)',
+            : '${balanceAtRegistration.toStringAsFixed(2)}(${(((bookingAmount + othercharges) + totalInterest) * gst / 100).toStringAsFixed(0)} GST)',
       };
     } catch (error) {
       log(error.toString());
