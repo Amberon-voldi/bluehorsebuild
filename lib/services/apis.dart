@@ -1433,7 +1433,9 @@ class Apis {
           i + 1,
           DateFormat('dd-MM-yyyy')
               .format(DateTime.parse(data[i]["payment_date"])),
-          data[i]["ref"],
+          data[i]['mode'].toString() != 'null'
+              ? '${data[i]["ref"]} In ${data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount' : data[i]['mode'].toString()}'
+              : data[i]["ref"],
           data[i]["value_out"] == "0"
               ? "-"
               : double.parse(data[i]["value_out"]
