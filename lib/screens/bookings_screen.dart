@@ -757,6 +757,7 @@ class _BookingsScreenState extends State<BookingsScreen> {
                       editCallback: (data) async {
                         await Apis().editBooking(data).then((result) {
                           if (result && mounted) {
+                            
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                   content: Text('Booking edited successfully')),
