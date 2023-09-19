@@ -135,7 +135,13 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                             fontWeight: FontWeight.w500,
                           ),
                         ),
-                        items: ["Cash", "Cheque", "Demand Draft", "Others"]
+                        items: [
+                          "Cash",
+                          "Cheque",
+                          "Demand Draft",
+                          "Suspense",
+                          "Others"
+                        ]
                             .map(
                               (value) => DropdownMenuItem(
                                 value: value,

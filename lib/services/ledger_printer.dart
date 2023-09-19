@@ -278,15 +278,19 @@ class LedgerPrinter {
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
                   pw.Text(
-                    "1. This is a system genereted ledger document and does not require any signatures.",
+                    "1. Approved by rera under registration no. UPRERAPRJ12520.",
                     style: const pw.TextStyle(),
                   ),
                   pw.Text(
-                    "2. As per RERA norms, Assured Returns are not permissible in the form of return cheque. In the case of REFUND/CANCELLATION of the unit at any stage and/or DELAY/DISHONOR/NON-PAYMENT of 3 SUCCESSIVE INSTALLMENTS by the customer, the builder shall no longer be liable to make any kind of adjustments for the Assured Returns in future. However, the Assured Returns already adjusted shall also stand cancelled and necessary adjustments shall be made by the builder.",
+                    "2. This is a system genereted ledger document and does not require any signatures.",
                     style: const pw.TextStyle(),
                   ),
                   pw.Text(
-                    "3. The process of REFUND/CANCELLATION shall require 90 DAYS from the date of submission of all necessary paperwork and STANDARD DEDUCTION shall be applicable.",
+                    "3. As per RERA norms, Assured Returns are not permissible in the form of return cheque. In the case of REFUND/CANCELLATION of the unit at any stage and/or DELAY/DISHONOR/NON-PAYMENT of 3 SUCCESSIVE INSTALLMENTS by the customer, the builder shall no longer be liable to make any kind of adjustments for the Assured Returns in future. However, the Assured Returns already adjusted shall also stand cancelled and necessary adjustments shall be made by the builder.",
+                    style: const pw.TextStyle(),
+                  ),
+                  pw.Text(
+                    "4. The process of REFUND/CANCELLATION shall require 90 DAYS from the date of submission of all necessary paperwork and STANDARD DEDUCTION shall be applicable.",
                     style: const pw.TextStyle(),
                   ),
                 ],
