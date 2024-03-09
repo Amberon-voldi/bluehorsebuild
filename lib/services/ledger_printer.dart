@@ -2,6 +2,8 @@ import 'dart:html' as html;
 import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -16,8 +18,18 @@ class LedgerPrinter {
     required String balanceAtRegistration,
   }) async {
     final pdf = pw.Document();
-    final netImage = await networkImage(
-        'https://cdn.discordapp.com/attachments/919582268631162883/1122665737115418725/image.png');
+
+    final img = await rootBundle.load('assets/images/logo.png');
+    final imageBytes = img.buffer.asUint8List();
+    final netImage = pw.MemoryImage(imageBytes);
+
+    // final Uint8List bytes =
+    //     await _loadAssetImageBytes('assets/images/logo.png');
+
+    // // Use Image.memory to load the image with the original bytes
+    // final netImage = await flutterImageProvider(
+    //   MemoryImage(Uint8List.fromList(bytes)),
+    // );
 
     pdf.addPage(
       pw.MultiPage(
@@ -341,6 +353,12 @@ class LedgerPrinter {
               ))
           .toList(),
     );
+  }
+
+  // Load asset image bytes
+  static Future<Uint8List> _loadAssetImageBytes(String assetPath) async {
+    final ByteData data = await rootBundle.load(assetPath);
+    return data.buffer.asUint8List();
   }
 
   static Future<void> _savePdf(pw.Document pdf) async {

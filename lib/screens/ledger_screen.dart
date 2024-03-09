@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:bluehorsebuild/services/apis.dart';
 import 'package:bluehorsebuild/services/ledger_printer.dart';
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class LedgerScreen extends StatefulWidget {
@@ -76,6 +77,8 @@ class _LedgerScreenState extends State<LedgerScreen> {
                   const BackButton(),
                   IconButton(
                     onPressed: () async {
+                      Fluttertoast.showToast(
+                          msg: 'Generating Ledger PDF, please wait');
                       var snapshotData = snapshot.data!;
                       LedgerPrinter.printLedger(
                         data: data,
