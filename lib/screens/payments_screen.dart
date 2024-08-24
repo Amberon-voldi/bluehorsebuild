@@ -136,7 +136,7 @@ class _PaymentsScreenState extends State<PaymentsScreen> {
                           ),
                         ),
                         items: [
-                          "Cash",
+                          "Discount",
                           "Cheque",
                           "Demand Draft",
                           "Suspense",

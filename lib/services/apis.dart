@@ -1389,6 +1389,7 @@ class Apis {
       }
 
       for (var i = 0; i < data.length; i++) {
+        print(data[i]);
         int diff = 0;
         double interest = 0;
         var previousBalance = balance;
@@ -1440,7 +1441,7 @@ class Apis {
           DateFormat('dd-MM-yyyy')
               .format(DateTime.parse(data[i]["payment_date"])),
           data[i]['mode'].toString() != 'null'
-              ? '${data[i]["ref"]} In ${data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount' : data[i]['mode'].toString()}'
+?data[i]['mode'].toString().toLowerCase() == 'discount' || data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount By Company(${data[i]["reference"]})' : '${data[i]["ref"]} In ${data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount' : data[i]['mode'].toString()}(${data[i]["reference"]})'
               : data[i]["ref"],
           data[i]["value_out"] == "0"
               ? "-"
