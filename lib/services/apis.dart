@@ -1441,7 +1441,7 @@ class Apis {
           DateFormat('dd-MM-yyyy')
               .format(DateTime.parse(data[i]["payment_date"])),
           data[i]['mode'].toString() != 'null'
-?data[i]['mode'].toString().toLowerCase() == 'discount' || data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount Done By Company(${data[i]["reference"]})' : '${data[i]["ref"]} In ${data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount' : data[i]['mode'].toString()}(${data[i]["reference"]})'
+?data[i]['mode'].toString().toLowerCase() == 'discount' || data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount Done By Company' : '${data[i]["ref"]} In ${data[i]['mode'].toString().toLowerCase() == 'cash' ? 'Discount' : data[i]['mode'].toString()}(${data[i]["reference"]})'
               : data[i]["ref"],
           data[i]["value_out"] == "0"
               ? "-"
