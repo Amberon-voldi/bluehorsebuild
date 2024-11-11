@@ -4,6 +4,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:fluttertoast/fluttertoast.dart';
+import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
 import 'package:printing/printing.dart';
@@ -141,7 +142,7 @@ class LedgerPrinter {
               child: pw.Padding(
                 padding: const pw.EdgeInsets.symmetric(vertical: 10.0),
                 child: pw.Text(
-                  "Statement of Account as on ${DateTime.now().day} May ${DateTime.now().year} at ${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour >= 12 ? "PM" : "AM"} (By ${role.toUpperCase()})",
+                  "Statement of Account as on ${DateTime.now().day} ${DateFormat.MMMM().format(DateTime.now())} ${DateTime.now().year} at ${DateTime.now().hour % 12}:${DateTime.now().minute} ${DateTime.now().hour >= 12 ? "PM" : "AM"} (By ${role.toUpperCase()})",
                   textAlign: pw.TextAlign.center,
                   style: pw.TextStyle(
                     fontSize: 16,

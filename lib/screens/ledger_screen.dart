@@ -6,6 +6,7 @@ import 'package:bluehorsebuild/services/ledger_printer.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:intl/intl.dart';
 
 class LedgerScreen extends StatefulWidget {
   const LedgerScreen(
@@ -134,6 +135,7 @@ class Ledger extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var now = DateTime.now();
+    log(now.toString());
     return Column(
       children: [
         Padding(
@@ -243,7 +245,7 @@ class Ledger extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical: 10.0),
           child: Text(
-            "Statement of Account as on ${now.day} May ${now.year} at ${now.hour % 12}:${now.minute} ${now.hour >= 12 ? "PM" : "AM"} (By ${role.toUpperCase()})",
+            "Statement of Account as on ${now.day} ${DateFormat.MMMM().format(now)} ${now.year} at ${now.hour % 12}:${now.minute} ${now.hour >= 12 ? "PM" : "AM"} (By ${role.toUpperCase()})",
             textAlign: TextAlign.center,
             style: GoogleFonts.urbanist(
               fontSize: 16,
